@@ -1,4 +1,4 @@
-package Class1;
+package Ex1;
 
 import java.util.Random;
 /**

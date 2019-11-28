@@ -1,5 +1,5 @@
 		
-		package myMath;
+		package Ex1;
 		
 		import java.util.Comparator;
 	
@@ -266,6 +266,16 @@
 				this._coefficient=0;
 				this._power=0;
 			}//setNewZeroMonom
+			@Override
+			public function initFromString(String s) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			@Override
+			public function copy() {
+				// TODO Auto-generated method stub
+				return null;
+			}
 			
 		
 		}//Monom Class
