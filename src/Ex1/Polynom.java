@@ -369,10 +369,10 @@ public class Polynom implements Polynom_able{
 	 * Use String method to check if the same
 	 */
 	@Override
-	public boolean equals(Polynom_able p1) {
+	public boolean equals(Object p1) {
 		if(p1 instanceof Polynom) {
 			Iterator<Monom> act=iteretor();
-			Iterator<Monom> exp=p1.iteretor();
+			Iterator<Monom> exp=((Polynom) p1).iteretor();
 			while (exp.hasNext() && act.hasNext()) {
 				Monom mExp = (Monom) exp.next();
 				Monom mAct=(Monom) act.next();
@@ -398,7 +398,7 @@ public class Polynom implements Polynom_able{
 
 	@Override
 	public function initFromString(String s) {
-		// TODO Auto-generated method stub
-		return null;
+		function f= new Polynom(s);
+		return f;
 	}
 }//polynom
