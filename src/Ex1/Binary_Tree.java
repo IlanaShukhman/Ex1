@@ -2,18 +2,18 @@ package Ex1;
 
 public class Binary_Tree {
 	class BTNode {
-		Object data;
+		function p;
 		BTNode left,right;
 		
-		public BTNode(Object data,BTNode left,BTNode right) {
-			this.data = data;
+		public BTNode(function p2,BTNode left,BTNode right) {
+			this.p=p2;
 			this.left = left;
 			this.right = right;
 		}
 		
 		@Override
 		public String toString() {
-			return this.data.toString();
+			return this.p.toString();
 		}
 	}
 
@@ -33,8 +33,8 @@ public class Binary_Tree {
 	 * Constructor
 	 * Complexity: O(1)
 	 */
-	public Binary_Tree(Object data) {
-		root = new BTNode(data, null, null);
+	public Binary_Tree(function p) {
+		root = new BTNode(p, null, null);
 		size = 1;
 	}
 	
@@ -49,22 +49,22 @@ public class Binary_Tree {
 
 	private BTNode clone(BTNode node) {
 		if(node == null) return null;
-		return new BTNode(node.data, clone(node.left), clone(node.right));
+		return new BTNode(node.p, clone(node.left), clone(node.right));
 	}
 	
 	/**
 	 * insert data to the tree
 	 * Complexity: O(log n) , O(n) - worst case
 	 */
-	public void insert(Object data) {
-		root = insert(root, data);
+	public void insert(function p) {
+		root = insert(root, p);
 	}
-
-	private BTNode insert(BTNode node, Object data) {
-		if(node == null) return new BTNode(data, null, null);
+    //Randomally side - Not Good
+	private BTNode insert(BTNode node, function p) {
+		if(node == null) return new BTNode(p, null, null);
 		double side = Math.random();
-		if(side < 0.5) node.left = insert(node.left, data);
-		else node.right = insert(node.right, data);
+		if(side < 0.5) node.left = insert(node.left, p);
+		else node.right = insert(node.right, p);
 		return node;
 	}
 	
@@ -83,7 +83,7 @@ public class Binary_Tree {
 	private void toString(BTNode node, String[] ans) {
 		if(node != null) {
 			toString(node.left,ans);
-			ans[0] = ans[0] + node.data + ", ";
+			ans[0] = ans[0] + node.p + ", ";
 			toString(node.right,ans);			
 		}
 	}

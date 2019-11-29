@@ -268,13 +268,13 @@
 			}//setNewZeroMonom
 			@Override
 			public function initFromString(String s) {
-				// TODO Auto-generated method stub
-				return null;
+				function f= new Monom(s);
+				return f;
 			}
 			@Override
 			public function copy() {
-				// TODO Auto-generated method stub
-				return null;
+				function f= new Monom(toString());
+				return f;
 			}
 			
 		
