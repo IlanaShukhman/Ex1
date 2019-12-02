@@ -60,6 +60,16 @@ public class Polynom implements Polynom_able{
 		}//while
 		return sum;
 	}//f(x)
+	
+	public static boolean isPolynom(String s) {
+		try {
+			Polynom p1= new Polynom(s);
+		}
+		catch(Exception e) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Adding our polynom by another polynom
