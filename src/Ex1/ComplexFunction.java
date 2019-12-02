@@ -1,119 +1,166 @@
 package Ex1;
 
+import com.sun.javadoc.ThrowsTag;
+
+
 
 public class ComplexFunction implements complex_function {
-    private Binary_Tree CF;//Represent comlex function by the tree
-    private Operation OP;//Represent specific operators
-    private function left,right;
+    private function Left,Right;//Represent comlex function by the tree
+    private Operation Root;//Represent specific operators
 	
-	public double f(double x) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
     /**
      * Constructors
      */
 	public ComplexFunction() {
-		CF=new Binary_Tree();
-        OP=OP.None;
-        left=null;
-        right=null;
+		Left=null;
+		Right=null;
+        Root=Root.None;        
 	}//ComplexFunction
 	
-	public ComplexFunction(Operation op,function l,function r) {
-		CF=new Binary_Tree();
-        OP=OP.None;
+	public ComplexFunction(Operation op,function l,function r)
+	{
+		this.Left=l;
+		this.Right=r;
+		this.Root=op;
 	}//ComplexFunction
+	
 	
 	@Override
 	public function initFromString(String s) {
-		CF=new Binary_Tree();
-		function f=new ComplexFunction();
-	    operationAnalyzing(s);
-	    
-	    
-	}
-    /**
-     * 
-     * @param s - input string format 
-     * By the giving input decide which operation we use
-     */
-	public void operationAnalyzing(String s)
-	{
-		 int index=s.indexOf('(');
-		    String oper=s.substring(0,index);
-		    if(oper.equals(OP.Plus))
-		    	OP=OP.Plus;
-		    else if(oper.equals(OP.Min))
-		    	OP=OP.Min;
-		    else if(oper.equals(OP.Max))
-		    	OP=OP.Max;
-		    else if(oper.equals(OP.Comp))
-		    	OP=OP.Comp;
-		    else if(oper.equals(OP.Times))
-		    	OP=OP.Times;
-		    else if(oper.equals(OP.Divid))
-		    	OP=OP.Divid;
-		    else
-		    	OP=OP.Error;
-	}//operationAnalyzing
+		function f=new ComplexFunction();    
+	    return f;
+	}//initFromString
+  
 	@Override
 	public function copy() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	    return this;
+	}//copy
+	public double f(double x) {
+		if(this.Right!=null) {
+				switch (Root) {
+						case Comp:
+							{
+								return this.Left.f(this.Right.f(x));	
+							}//Comp
+						case Divid:
+							{
+								return this.Left.f(x)/this.Right.f(x);
+							}//Divid
+						case Max:
+							{
+								return Math.max(this.Left.f(x), this.Right.f(x));
+							}//Max
+						case Plus:
+							{
+								return (this.Left.f(x)+ this.Right.f(x));
+							}//Plus
+						case Min:
+							{
+								return Math.min(this.Left.f(x), this.Right.f(x));
+							}//Min
+						case None:
+							{
+								return this.Left.f(x);
+							}//None
+						case Times:
+							{
+								return this.Left.f(x)* this.Right.f(x);
+							}//Times
+						case Error:
+							{
+								throw new RuntimeException("ERR: wrong operation"); 
+							}//Error
+					}//switch
+		}//if
+			return this.Left.f(x);
+	}//f
+
+	
 
 	@Override
 	public void plus(function f1) {
-		// TODO Auto-generated method stub
-		
-	}
+		Operation op=Operation.Plus;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
+	}//plus
 
 	@Override
 	public void mul(function f1) {
-		// TODO Auto-generated method stub
+		Operation op=Operation.Times;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
 		
-	}
+	}//mul
 
 	@Override
 	public void div(function f1) {
-		// TODO Auto-generated method stub
-		
-	}
+		Operation op=Operation.Divid;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
+	}//div
 
 	@Override
 	public void max(function f1) {
-		// TODO Auto-generated method stub
-		
-	}
+		Operation op=Operation.Max;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
+	}//max
 
 	@Override
 	public void min(function f1) {
-		// TODO Auto-generated method stub
-		
-	}
+		Operation op=Operation.Min;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
+	}//min
 
 	@Override
 	public void comp(function f1) {
-		// TODO Auto-generated method stub
-		
-	}
+		Operation op=Operation.Comp;
+		function left=new ComplexFunction(this.Root, this.Left, this.Right);
+		this.Root=op;
+		this.Left=left;
+		this.Right=f1;
+	}//comp
 
 	@Override
 	public function left() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return this.Left;
+	}//Left
+	
+    
 
 	@Override
 	public function right() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		return this.Right;
+	}//Right
 
 	@Override
 	public Operation getOp() {
-		return OP;
+		return Root;
 	}//getOP
+	@Override
+	public boolean equals(function obj) {
+		// TODO Auto-generated method stub
+		return false;
+	}//equals
+	
+	public String toString()
+	{
+		return this.Root.name()+"("+this.Left.toString()+","+this.Right.toString()+")";
+	}//toString
+
+	
+	
 
 }

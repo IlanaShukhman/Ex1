@@ -369,7 +369,7 @@ public class Polynom implements Polynom_able{
 	 * Use String method to check if the same
 	 */
 	@Override
-	public boolean equals(Object p1) {
+	public boolean equals(function p1) {
 		if(p1 instanceof Polynom) {
 			Iterator<Monom> act=iteretor();
 			Iterator<Monom> exp=((Polynom) p1).iteretor();

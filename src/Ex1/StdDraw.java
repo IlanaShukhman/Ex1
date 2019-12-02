@@ -600,8 +600,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 	private static double xmin, ymin, xmax, ymax;
 
 	// for synchronization
-	private static Object mouseLock = new Object();
-	private static Object keyLock = new Object();
+	private static function mouseLock = new function();
+	private static function keyLock = new function();
 
 	// default font
 	private static final Font DEFAULT_FONT = new Font("SansSerif", Font.PLAIN, 16);

@@ -47,7 +47,7 @@
 			 * Check if two monoms have the same value
 			 */
             @Override 
-            public boolean equals(Object m)
+            public boolean equals(function m)
             {
             	if(m instanceof Monom) {
 				if(this._coefficient==0 && ((Monom) m).get_coefficient()==0)

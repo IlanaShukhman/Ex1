@@ -12,5 +12,5 @@ public interface function extends Serializable{
 	public String toString();
 	public function initFromString(String s);
 	public function copy(); // clone
-	public boolean equals(Object obj);
+	public boolean equals(function obj);
 }
