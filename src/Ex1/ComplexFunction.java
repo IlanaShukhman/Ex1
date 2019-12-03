@@ -1,6 +1,7 @@
 package Ex1;
 
 
+
 public class ComplexFunction implements complex_function {
 
 	private function Left,Right;//Represent comlex function by the tree
@@ -237,8 +238,9 @@ public class ComplexFunction implements complex_function {
 
 	@Override
 	public function copy() {
-
-		return this;
+		function f= new ComplexFunction();
+		f.initFromString(toString());
+		return f;
 	}//copy
 
 	public double f(double x) {
@@ -379,12 +381,6 @@ public class ComplexFunction implements complex_function {
 		// TODO Auto-generated method stub
 		return false;
 	}//equals
-
-
-	//	public String toString()
-	//	{
-	//		return this.Root.name()+"("+this.Left.toString()+","+this.Right.toString()+")";
-	//	}//toString
 
 
 	public String toString() {
