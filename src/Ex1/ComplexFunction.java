@@ -389,7 +389,7 @@ public class ComplexFunction implements complex_function {
 
 	public String toString() {
 		String str="";
-		str=Root +" ( " + Left +" , "+Right +" )";
+		str=Root +" ( " + Left +" , "+ Right +" )";
 		return str;
 	}
 

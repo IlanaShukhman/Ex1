@@ -60,11 +60,6 @@ class ComplexFunctionTest {
 	}
 
 	@Test
-	final void testOperationAnalyzing() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	@Test
 	final void testCopy() {
 		fail("Not yet implemented"); // TODO
 	}
