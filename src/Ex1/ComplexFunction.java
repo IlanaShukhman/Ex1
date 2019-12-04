@@ -8,16 +8,13 @@ public class ComplexFunction implements complex_function {
 	private Operation Root;//Represent specific operators
 
 	/**
-	 * Constructors
+	 * Constructors:
 	 */
 
 	public ComplexFunction() {
-
 		Left=null;
 		Right=null;
 		Root=Root.None;        
-
-
 	}//ComplexFunction
 
 
@@ -28,11 +25,6 @@ public class ComplexFunction implements complex_function {
 		this.Root=op;
 	}//ComplexFunction
 
-	public ComplexFunction(String op, String left, String right) {
-		set_OP(op);
-		set_left(left);
-		set_right(right);
-	}
 
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
@@ -63,6 +55,12 @@ public class ComplexFunction implements complex_function {
 		set_right(right);
 	}
 
+	/**
+	 * This method returns true is a given string is in the form of op(f(x),g(x)),
+	 * and f and g are polynoms.
+	 * @param str a given string in the form op(f(x),g(x))
+	 * @return true if f and g are polynoms.
+	 */
 	public static boolean simpleCF(String str) {
 		int count1=0;
 		int count2=0;
@@ -80,29 +78,11 @@ public class ComplexFunction implements complex_function {
 		return true;
 	}
 
-	public static boolean complicateCF(String str) {
-		int count1=0;
-		int count2=0;
-		int count3=0;
-		for(int i=0;i<str.length();i++) {
-			if(str.charAt(i)=='(')
-				count1++;
-			else if(str.charAt(i)==')')
-				count2++;
-			else if(str.charAt(i)==',')
-				count3++;
-		}
-		if(count1==1 || count2==1 || count3==1 )
-			return false;
-		else if(count1==0)
-			return false;
-		return true;
-	}
 	/**
-	 * Given a string with the form op(left,right), returns the left function.
-	 * 
-	 * @param s
-	 * @return
+	 * This method gets a string s in the form of: op(f(x),g(x)), where f and g are complexFunction,
+	 * returns f(x)
+	 * @param s string in the form of op(f(x),g(x))
+	 * @return f(x)
 	 */
 	public ComplexFunction findLeftFunction(String s) {
 		ComplexFunction Left=new ComplexFunction();
@@ -123,6 +103,12 @@ public class ComplexFunction implements complex_function {
 		return Left;
 	}
 
+	/**
+	 * This method gets a string s in the form of: op(f(x),g(x)), where f and g are complexFunction,
+	 * returns g(x)
+	 * @param s string in the form of op(f(x),g(x))
+	 * @return g(x)
+	 */
 	public ComplexFunction findRightFunction(String s) {
 		ComplexFunction Right=new ComplexFunction();
 
@@ -143,38 +129,19 @@ public class ComplexFunction implements complex_function {
 	}
 
 
-	@Override
-	public function initFromString(String s) {
-		s=s.replace(" ", "");
-		function func;
-		Operation op=Root.None;
-		function left=new Polynom(),right=new Polynom();
-
-		if(Polynom.isPolynom(s)) {
-			op=Root.None;
-			left=new Polynom(s);
-			right=null;	
-		}
-		else if(simpleCF(s)){
-			op=whichOP(s.substring(0,s.indexOf('(')));
-			left = new Polynom(s.substring(s.indexOf('(')+1,s.indexOf(',')));
-			right =new Polynom(s.substring(s.indexOf(',')+1,s.indexOf(')')));
-		}
-		else {
-			int index=s.indexOf("(");
-			String oper=s.substring(0,index);
-			op=whichOP(oper);
-			left=findLeftFunction(s);
-			right=findRightFunction(s);
-
-
-		}
-		func=new ComplexFunction(op,left,right);
-		System.out.println(func);
-		return func;
-	}
 	/**
-	 * Setters. Can get: String, operation and function, empty.
+	 * This method returns a function from a given string.
+	 * @param s
+	 * @return function f
+	 */
+	public function initFromString(String s) {
+		function f=new ComplexFunction(s);
+		return f;
+	}//initFromString
+	/**
+	 * This method receives a string oper, and returns the operator the string is equals to.
+	 * @param oper = a string in the form of one of the operators.
+	 * @return the appropriate operator.
 	 */
 	public Operation whichOP(String oper) {
 		oper=oper.toLowerCase();
@@ -192,36 +159,11 @@ public class ComplexFunction implements complex_function {
 			return Root.Divid;
 		else
 			return Root.Error;
-	}
+	}//WhichOP
 
-
-	public void set_OP(String oper)
-	{
-		oper=oper.toLowerCase();
-		if(oper.equals("plus"))
-			Root=Root.Plus;
-		else if(oper.equals("min"))
-			Root=Root.Min;
-		else if(oper.equals("max"))
-			Root=Root.Max;
-		else if(oper.equals("comp"))
-			Root=Root.Comp;
-		else if(oper.equals("mul"))
-			Root=Root.Times;
-		else if(oper.equals("div"))
-			Root=Root.Divid;
-		else
-			Root=Root.Error;
-	}//operationAnalyzing
-
-	public void set_right(String str) {
-		function func=new Polynom(str);
-		Right=func;
-	}
-	public void set_left(String str) {
-		function func=new Polynom(str);
-		Left=func;
-	}
+	/**
+	 * Setters.
+	 */
 	public void set_OP(Operation op) {
 		this.Root=op;
 	}
@@ -231,18 +173,22 @@ public class ComplexFunction implements complex_function {
 	public void set_left(function left) {
 		this.Left=left;
 	}
-	public void set_right() {
-		this.Right=null;
-	}
 
 
-	@Override
+	/**
+	 * This method returns a deep copy of this function
+	 */
 	public function copy() {
 		function f= new ComplexFunction();
 		f.initFromString(toString());
 		return f;
 	}//copy
 
+	/**
+	 * This method calculates the value of this function f in x.
+	 * @param x
+	 * @return f(x)
+	 */
 	public double f(double x) {
 		if(this.Right!=null) {
 			switch (Root) {
@@ -252,6 +198,9 @@ public class ComplexFunction implements complex_function {
 			}//Comp
 			case Divid:
 			{
+				if (this.Right.f(x)==0) {
+					throw new RuntimeException("Not possible to divide by 0!");
+				}
 				return this.Left.f(x)/this.Right.f(x);
 			}//Divid
 			case Max:
@@ -284,9 +233,11 @@ public class ComplexFunction implements complex_function {
 	}//f
 
 
-	@Override
+	/**
+	 * This method sets the root of this function as the operator plus, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
 	public void plus(function f1) {
-
 		Operation op=Operation.Plus;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
@@ -297,23 +248,26 @@ public class ComplexFunction implements complex_function {
 
 
 
-	@Override
+	/**
+	 * This method sets the root of this function as the operator times, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
 	public void mul(function f1) {
-
 		Operation op=Operation.Times;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
 		this.Right=f1;
-
 	}//mul
 
 
 
 
-	@Override
+	/**
+	 * This method sets the root of this function as the operator divid, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
 	public void div(function f1) {
-
 		Operation op=Operation.Divid;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
@@ -322,9 +276,12 @@ public class ComplexFunction implements complex_function {
 	}//div
 
 
-	@Override
-	public void max(function f1) {
 
+	/**
+	 * This method sets the root of this function as the operator max, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
+	public void max(function f1) {
 		Operation op=Operation.Max;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
@@ -334,7 +291,10 @@ public class ComplexFunction implements complex_function {
 
 
 
-	@Override
+	/**
+	 * This method sets the root of this function as the operator min, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
 	public void min(function f1) {
 
 		Operation op=Operation.Min;
@@ -346,7 +306,10 @@ public class ComplexFunction implements complex_function {
 
 
 
-	@Override
+	/**
+	 * This method sets the root of this function as the operator comp, this function becomes 
+	 * the left function and a given function becomes the right function. 
+	 */
 	public void comp(function f1) {
 
 		Operation op=Operation.Comp;
@@ -357,32 +320,41 @@ public class ComplexFunction implements complex_function {
 	}//comp
 
 
-	@Override
+	/**
+	 * Returns the right function of this ComplexFunction
+	 */
 	public function left() {
 		return this.Left;
 	}//Left
-
-
-
-
-	@Override
+	
+	/**
+	 * Returns the right function of this ComplexFunction
+	 */
 	public function right() {
 		return this.Right;
 	}//Right
 
 
-	@Override
+	/**
+	 * Return the operator of this complexFunction
+	 */
 	public Operation getOp() {
 		return Root;
 	}//getOP
 
-	@Override
+	/**
+	 * Returns true if a given function is equal to this ComplexFunction.
+	 * Equals: f1 and f2 will be called equals if for every x, f1(x)=f2(x).
+	 * Returns false otherwise.
+	 */
 	public boolean equals(function obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}//equals
 
-
+	/**
+	 * Returns this complexFunction as a string.
+	 */
 	public String toString() {
 		String str="";
 		str=Root +" ( " + Left +" , "+ Right +" )";
