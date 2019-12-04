@@ -248,7 +248,7 @@ public class ComplexFunction implements complex_function {
 			switch (Root) {
 			case Comp:
 			{
-				return this.Left.f(this.Right.f(x));	
+				return this.Left.f(this.Right.f(x));
 			}//Comp
 			case Divid:
 			{
