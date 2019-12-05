@@ -211,6 +211,8 @@ class ComplexFunctionTest {
 		assertEquals(g, ACTUAL,"ERR: failing to compare ComplexFunction to Polynom");
 		ACTUAL=new ComplexFunction(f.toString());
 		assertEquals(f, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
+		ACTUAL=new ComplexFunction(right);
+		assertEquals(right, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
 		
 	}//testEquals
 
