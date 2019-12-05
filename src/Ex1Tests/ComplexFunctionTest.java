@@ -200,5 +200,18 @@ class ComplexFunctionTest {
 		assertEquals(o.toString(), op.toString(),"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
 
 	}
+	
+	@Test
+	final void testEquals()
+	{
+		function f=new Monom("3x^2");
+		function g=new Polynom("x^5+3x^3+2x-8");
+		op=Operation.Min;
+		ACTUAL=new ComplexFunction(g.toString());
+		assertEquals(g, ACTUAL,"ERR: failing to compare ComplexFunction to Polynom");
+		ACTUAL=new ComplexFunction(f.toString());
+		assertEquals(f, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
+		
+	}//testEquals
 
 }

@@ -47,7 +47,7 @@ public class Monom implements function{
 	 * Check if two monoms have the same value
 	 */
 	@Override 
-	public boolean equals(function m)
+	public boolean equals(Object m)
 	{
 		if(m instanceof Monom) {
 			if(this._coefficient==0 && ((Monom) m).get_coefficient()==0)
@@ -58,6 +58,11 @@ public class Monom implements function{
 				return false;
 			}//else
 		}//if
+		else if(m instanceof Polynom || m instanceof ComplexFunction)
+		{
+			Monom m2=new Monom(toString());
+			return m.equals(m2);
+		}//else if
 		return false;
 	}//boolean
 

@@ -379,7 +379,7 @@ public class Polynom implements Polynom_able{
 	 * Use String method to check if the same
 	 */
 	@Override
-	public boolean equals(function p1) {
+	public boolean equals(Object p1) {
 		if(p1 instanceof Polynom) {
 			Iterator<Monom> act=iteretor();
 			Iterator<Monom> exp=((Polynom) p1).iteretor();
@@ -391,7 +391,20 @@ public class Polynom implements Polynom_able{
 			}//while
 			return true;
 		}//if
-		return false;
+		else if(p1 instanceof Monom)
+		{
+		   if(this.poly.size()!=1)
+			   return false;
+		   else
+			   return p1.equals(poly.get(0));
+		}//else if
+		else if(p1 instanceof ComplexFunction)
+		{
+			Polynom p=new Polynom(toString());
+			return p1.equals(p);
+		}
+		else
+			throw new RuntimeException("ERR: you are trying to compare different objects");
 	}//equals
 
 	/**

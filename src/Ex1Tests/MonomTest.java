@@ -102,10 +102,10 @@ class MonomTest {
      */
 	@Test
 	void testDerivative() {
-		EXPECTED=new Monom();
+		EXPECTED=new Monom(ZERO);
 		Double coe=rand.random(MIN, MAX);
 		Monom m=new Monom(coe,0);
-		ACTUAL=m.derivative();
+		ACTUAL=new Monom(m.derivative());
 		assertEquals(EXPECTED,ACTUAL, "ERR: number monom derivation failing. We expect to get: "+EXPECTED.toString()+" but we got: "+ACTUAL.toString());
 		EXPECTED=new Monom("21x^2");
 		m=new Monom("7x^3");
@@ -227,7 +227,6 @@ class MonomTest {
 	@Test
 	void testToString() {
 		EXPECTED=new Monom("4x^5");
-		System.out.println(EXPECTED.toString());
 		ACTUAL=new Monom(4,5);
 		String expected=EXPECTED.toString();
 		String actual=ACTUAL.toString();
