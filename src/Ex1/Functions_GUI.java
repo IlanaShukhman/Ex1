@@ -13,81 +13,96 @@ public class Functions_GUI implements functions {
 		super();
 		this.func_collection = new ArrayList<function>();
 	}//Functions_GUI
+	
 	public Functions_GUI(ArrayList<function> func_collection) {
 		super();
 		this.func_collection = func_collection;
 	}//Functions_GUI
+	
+	/**
+	 * Getters.
+	 * @return func_collenction 
+	 */
+	public ArrayList<function> get_func_collection(){
+		return this.func_collection;
+	}
     /**
      * Returns the number of elements in this collection.
      */
-	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.func_collection.size();
 	}
+	
     /**
      * Returns true if this collection contains no elements.
      */
-	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		if(this.func_collection.isEmpty()) {
+			return true;
+		}
 		return false;
 	}
+	
     /**
      * Returns true if this collection contains the specified element. 
      * More formally, 
      * returns true if and only if this collection contains at least one element e such that: 
      * (o==null ? e==null : o.equals(e)).
      */
-	@Override
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
+		if(this.func_collection.contains(o))
+			return true;
 		return false;
 	}
     /**
      * Returns an iterator over the elements in this collection.
      */
-	@Override
 	public Iterator<function> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterator<function> itr=func_collection.iterator();
+		return itr;
 	}
+	
     /**
      * Returns an array containing all of the elements in this collection.
      */
-	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] obj = new Object[this.func_collection.size()];
+		for (int i = 0; i < obj.length; i++) {
+			obj[i]=this.func_collection.get(i);
+		}
+		return obj;
 	}
+	
     /**
      * Returns an array containing all of the elements in this collection; 
      * the runtime type of the returned array is that of the specified array.
      */
-	@Override
 	public <T> T[] toArray(T[] a) {
-		// TODO Auto-generated method stub
-		return null;
+		T[] t = (T[]) new Object[this.func_collection.size()];
+		for (int i = 0; i < t.length; i++) {
+			t[i]=(T) this.func_collection.get(i);
+		}
+		return t;
 	}
 
-	@Override
 	public boolean add(function e) {
-		// TODO Auto-generated method stub
-		return false;
+		this.func_collection.add(e);
+		return true;
 	}
     
-	@Override
+	
 	public boolean remove(Object o) {
-		// TODO Auto-generated method stub
-		return false;
+		this.func_collection.remove(o);
+		return true;
 	}
 
 	/**
 	 * Returns true if this collection contains all of the elements in the specified collection.
 	 */
-	@Override
 	public boolean containsAll(Collection<?> c) {
-		// TODO Auto-generated method stub
+		if(this.func_collection.containsAll(c)) {
+			return true;
+		}
 		return false;
 	}
     /**
@@ -95,32 +110,30 @@ public class Functions_GUI implements functions {
      */
 	@Override
 	public boolean addAll(Collection<? extends function> c) {
-		// TODO Auto-generated method stub
-		return false;
+		this.func_collection.addAll(c);
+		return true;
 	}
     /**
      * Removes all of this collection's elements that are also contained in the specified collection (optional operation).
      */
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		this.func_collection.removeAll(c);
+		return true;
 	}
     /**
      * Retains only the elements in this collection that are contained in the specified collection (optional operation).
      */
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		// TODO Auto-generated method stub
-		return false;
+		this.func_collection.retainAll(c);
+		return true;
 	}
     /**
      * Removes all of the elements from this collection (optional operation).
      */
-	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		this.func_collection.clear();
 	}
 
 	@Override
