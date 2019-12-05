@@ -66,7 +66,7 @@ public class Functions_GUI implements functions {
      * Returns an array containing all of the elements in this collection.
      */
 	public Object[] toArray() {
-		Object[] obj = new Object[this.func_collection.size()];
+		Object[] obj = new Object[this.func_collection.size()-1];
 		for (int i = 0; i < obj.length; i++) {
 			obj[i]=this.func_collection.get(i);
 		}
@@ -134,6 +134,15 @@ public class Functions_GUI implements functions {
      */
 	public void clear() {
 		this.func_collection.clear();
+	}
+	
+	public String toString() {
+		String str="";
+		for (int i = 0; i < this.func_collection.size(); i++) {
+			str+=this.func_collection.get(i).toString()+", ";
+		}
+		str=str.substring(0,str.length()-2);
+		return str;
 	}
 
 	@Override

@@ -9,7 +9,7 @@ public class ComplexFunction implements complex_function {
 	private MyRandom rand= new MyRandom(12345);
 	private final Integer min=-999;
 	private final Integer max=999;
-    
+
 	/**
 	 * Constructors:
 	 */
@@ -329,7 +329,7 @@ public class ComplexFunction implements complex_function {
 	public function left() {
 		return this.Left;
 	}//Left
-	
+
 	/**
 	 * Returns the right function of this ComplexFunction
 	 */
@@ -350,7 +350,8 @@ public class ComplexFunction implements complex_function {
 	 * Equals: f1 and f2 will be called equals if for every x, f1(x)=f2(x).
 	 * Returns false otherwise.
 	 */
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if(obj instanceof function)
 		{
 			boolean first=checkByInterval((function) obj);
@@ -358,32 +359,31 @@ public class ComplexFunction implements complex_function {
 			{
 				if((obj instanceof Polynom || obj instanceof Monom))
 				{
-				   if(Right==null)
-				   {
-					  if(Left instanceof Polynom || Left instanceof Monom)
-					  {
-						  return Left.equals(obj);
-					  }//if
-					  System.out.println("ERR: cant compare between complex functions");	
-				}//else if
-				   System.out.println("ERR: cant compare between complex functions");	
+					if(Right==null)
+					{
+						if(Left instanceof Polynom || Left instanceof Monom)
+						{
+							return Left.equals(obj);
+						}//if
+						System.out.println("ERR: cant compare between complex functions");	
+					}//else if
+					System.out.println("ERR: cant compare between complex functions");	
+				}//if
+				System.out.println("ERR: cant compare between complex functions");	
 			}//if
-			System.out.println("ERR: cant compare between complex functions");	
+			return false;
 		}//if
 		return false;
-	}//if
-	return false;
-
-		
 	}//equals
-public boolean checkByInterval(function obj)
-{
-	for (int i = min; i < max; i++) {
-		if(f(i)!=obj.f(i))
-			return false;
-	}
-	return true;
-}//checkByInterval
+	
+	public boolean checkByInterval(function obj)
+	{
+		for (int i = min; i < max; i++) {
+			if(f(i)!=obj.f(i))
+				return false;
+		}
+		return true;
+	}//checkByInterval
 
 	/**
 	 * Returns this complexFunction as a string.
