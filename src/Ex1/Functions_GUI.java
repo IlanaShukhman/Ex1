@@ -50,8 +50,10 @@ public class Functions_GUI implements functions {
      * (o==null ? e==null : o.equals(e)).
      */
 	public boolean contains(Object o) {
+		if(o instanceof function) {
 		if(this.func_collection.contains(o))
 			return true;
+		}//contains
 		return false;
 	}
     /**
@@ -66,7 +68,7 @@ public class Functions_GUI implements functions {
      * Returns an array containing all of the elements in this collection.
      */
 	public Object[] toArray() {
-		Object[] obj = new Object[this.func_collection.size()-1];
+		Object[] obj = new function[this.func_collection.size()-1];
 		for (int i = 0; i < obj.length; i++) {
 			obj[i]=this.func_collection.get(i);
 		}
@@ -78,7 +80,7 @@ public class Functions_GUI implements functions {
      * the runtime type of the returned array is that of the specified array.
      */
 	public <T> T[] toArray(T[] a) {
-		T[] t = (T[]) new Object[this.func_collection.size()];
+		T[] t = (T[]) new function[this.func_collection.size()];
 		for (int i = 0; i < t.length; i++) {
 			t[i]=(T) this.func_collection.get(i);
 		}
@@ -92,19 +94,25 @@ public class Functions_GUI implements functions {
     
 	
 	public boolean remove(Object o) {
+		if(o instanceof function)
+		{
 		this.func_collection.remove(o);
 		return true;
-	}
+		}//if
+		return false;
+	}//remove
 
 	/**
 	 * Returns true if this collection contains all of the elements in the specified collection.
 	 */
 	public boolean containsAll(Collection<?> c) {
-		if(this.func_collection.containsAll(c)) {
-			return true;
-		}
+		if(c instanceof function) {
+			if(this.func_collection.containsAll(c)) {
+				return true;
+			}//if
+		}//if
 		return false;
-	}
+	}//containsAll
     /**
      * Adds all of the elements in the specified collection to this collection (optional operation).
      */
