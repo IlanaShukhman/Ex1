@@ -27,8 +27,11 @@ public class ComplexFunction implements complex_function {
 		this.Right=r;
 		this.Root=op;
 	}//ComplexFunction
-
-
+	public ComplexFunction(ComplexFunction cf) {
+		this.Left=cf.left();
+		this.Right=cf.right();
+		this.Root=cf.getOp();
+	}//ComplexFunction
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
 
@@ -367,8 +370,14 @@ public class ComplexFunction implements complex_function {
 					  System.out.println("ERR: cant compare between complex functions");	
 				}//else if
 				   System.out.println("ERR: cant compare between complex functions");	
-			}//if
-			System.out.println("ERR: cant compare between complex functions");	
+				}//if
+				else if(obj instanceof ComplexFunction)
+				{
+					if(obj.toString().equals(toString())==true)
+						return true;
+				}//else if
+				else
+					throw new RuntimeException("ERR: trying to mix meat and milk those objects are different");
 		}//if
 		return false;
 	}//if
