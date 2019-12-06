@@ -25,11 +25,13 @@ public class ComplexFunction implements complex_function {
 		this.Right=r;
 		this.Root=op;
 	}//ComplexFunction
+	
 	public ComplexFunction(ComplexFunction cf) {
 		this.Left=cf.left();
 		this.Right=cf.right();
 		this.Root=cf.getOp();
 	}//ComplexFunction
+	
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
 
@@ -102,6 +104,7 @@ public class ComplexFunction implements complex_function {
 			if(counter==0 && s.charAt(i+1)==',') {
 				s=s.substring(0,i+1);
 				Left=new ComplexFunction(s);
+				break;
 			}
 		}
 		return Left;
@@ -127,6 +130,7 @@ public class ComplexFunction implements complex_function {
 			if(counter==0 && s.charAt(i+1)==',') {
 				s=s.substring(i+2);
 				Right=new ComplexFunction(s);
+				break;
 			}
 		}
 		return Right;
@@ -157,7 +161,7 @@ public class ComplexFunction implements complex_function {
 			return Root.Max;
 		else if(oper.equals("comp"))
 			return Root.Comp;
-		else if(oper.equals("mul"))
+		else if(oper.equals("mul") || oper.equals("times"))
 			return Root.Times;
 		else if(oper.equals("div"))
 			return Root.Divid;

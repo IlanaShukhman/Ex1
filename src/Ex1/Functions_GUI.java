@@ -38,6 +38,10 @@ public class Functions_GUI implements functions {
 	public ArrayList<function> get_func_collection(){
 		return this.func_collection;
 	}
+
+	public function get(int index) {
+		return func_collection.get(index);
+	}
 	/**
 	 * Returns the number of elements in this collection.
 	 */
@@ -184,14 +188,14 @@ public class Functions_GUI implements functions {
 			System.out.println(i+") "+   this.func_collection.get(i));
 		}
 	}
-    //Deserialization
+	//Deserialization
 	@Override
 	public void initFromFile(String file) throws IOException {
 		Gson gson = new Gson();
 		try
 		{
 			FileReader reader = new FileReader(file);
-		    Functions_GUI fg = gson.fromJson(reader,Functions_GUI.class);
+			Functions_GUI fg = gson.fromJson(reader,Functions_GUI.class);
 			System.out.println(fg);
 		}
 		catch (FileNotFoundException e) {
@@ -199,7 +203,7 @@ public class Functions_GUI implements functions {
 		}
 
 	}
-    //Serialization
+	//Serialization
 	@Override
 	public void saveToFile(String file) throws IOException {
 		//Make jason
@@ -225,57 +229,85 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
+		Color[] color= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange
+				,Color.pink};
+		
+		int colorNum=0;
+
+
+		Range Width=new Range(-width/2,width/2);
+		Range Height=new Range(0-height/2,height/2);
+
 		// number of line segments to plot
 		int n=resolution;
-		int range=(int) (rx.get_max()-rx.get_min());
+		double range=rx.get_max()-rx.get_min();
+		double stepX=range/n;
+
 		double maxY = ry.get_max(), minY = ry.get_min();
-		int j=0;
-		Iterator itr= this.iterator();
+		double maxX = rx.get_max(), minX = rx.get_min();
+
+
+		// rescale the coordinate system
+		StdDraw.setXscale(Width.get_min(), Width.get_max());
+		StdDraw.setYscale(Height.get_min(), Height.get_max());
+
+		//////// vertical lines
+		StdDraw.setPenColor(Color.LIGHT_GRAY);
+		for (int i = (int) Width.get_min(); i <= Width.get_max(); i=i+n/4){
+			StdDraw.line(i, Height.get_min(), i, Height.get_max());
+		}
+		//////// horizontal  lines
+		for (double i = Height.get_min(); i <= Height.get_max(); i=i+n/4) {
+			StdDraw.line(Width.get_min(), i, Width.get_max(), i);
+		}
+
+		///////Draw x axis and y axis
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.line(Width.get_min(), 0, Width.get_max(), 0);
+		StdDraw.line(0, Height.get_min(), 0, Height.get_max());
+		StdDraw.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+
+		Iterator<function> itr= iterator();
 		while(itr.hasNext()) {
 
-			function f= this.func_collection.get(j);
-
-			double[] x = new double[(int) (n+1)];
-			double[] y = new double[(int) (n+1)];
+			function f= itr.next();
+			double[] x = new double[n+1];
+			double[] y = new double[n+1];
+			double[] w = new double[n+1];
+			double[] h = new double[n+1];
 
 			for (int i = 0; i <= n; i++) {
-				x[i] = range/n;
-				y[i] = f.f(x[i]);
-			}
-			// rescale the coordinate system
-			StdDraw.setXscale(0, Math.PI);
-			StdDraw.setYscale(minY, maxY);
+				x[i] = minX+i*stepX;
+				try {
+					y[i] = f.f(x[i]);
+				}
+				catch(Exception e) {
 
-			//////// vertical lines
-			StdDraw.setPenColor(Color.LIGHT_GRAY);
-			for (int i = 0; i <= n; i=i+10) {
-				StdDraw.line(x[i], minY, x[i], maxY);
-			}
-			//////// horizontal  lines
-			for (double i = minY; i <= maxY; i=i+0.5) {
-				StdDraw.line(0, i, Math.PI, i);
-			}
-			//////// x axis
-			StdDraw.setPenColor(Color.BLACK);
-			StdDraw.setPenRadius(0.005);
-			StdDraw.line(0, y[(int) (n/2)], Math.PI, y[(n/2)]);
-			StdDraw.setFont(new Font("TimesRoman", Font.BOLD, 15));
-			for (int i = 0; i <= n; i=i+10) {
-				StdDraw.text(x[i]-0.07, -0.07, Integer.toString((i-n/2)));
-			}
-			//////// y axis
-			StdDraw.line(x[(n/2)], minY, x[(n/2)], maxY);
-			for (double i = minY; i <= maxY; i=i+0.5) {
-				StdDraw.text(x[(n/2)]-0.07, i+0.07, Double.toString(i));
+				}
+				w[i] = (x[i]*Width.get_max())/rx.get_max();
+				h[i] = (y[i]*Width.get_max())/ry.get_max();
+
 			}
 
+
+//
+//			//////// x axis
+//			for (int i = 0; i <= n; i=i+n) {
+//				StdDraw.text(w[i]-0.07, -0.07, Integer.toString((int) (x[i]/2)));
+//			}
+//			//////// y axis
+//			for (double i = Height.get_min(); i <= Height.get_max(); i=i+n) {
+//				StdDraw.text(w[(n/2)]-0.07, i+0.07, Double.toString(i));
+//			}
+
+			StdDraw.setPenColor(color[colorNum]);
 			// plot the approximation to the function
 			for (int i = 0; i < n; i++) {
-				StdDraw.line(x[i], y[i], x[i+1], y[i+1]);
+				StdDraw.line(w[i], h[i], w[i+1], h[i+1]);
 			}
-			StdDraw.setPenColor(Color.RED);
-			StdDraw.setPenRadius(0.01);
-			StdDraw.point(x[(n/2)], 1);
+			colorNum++;
+			if(colorNum==8)
+				colorNum=0;
 
 		}
 	}
