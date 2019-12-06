@@ -1,9 +1,17 @@
 package Ex1;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
+import com.google.gson.Gson;
+
+
 
 public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
@@ -171,18 +179,44 @@ public class Functions_GUI implements functions {
 			System.out.println(i+") "+   this.func_collection.get(i));
 		}
 	}
-
+    //Deserialization
 	@Override
 	public void initFromFile(String file) throws IOException {
-		// TODO Auto-generated method stub
-
+		Gson gson = new Gson();
+		try 
+		{
+			FileReader reader = new FileReader(file);
+		    Functions_GUI fg = gson.fromJson(reader,Functions_GUI.class);
+			System.out.println(fg);
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+      
 	}
-
+    //Serialization
 	@Override
 	public void saveToFile(String file) throws IOException {
-		// TODO Auto-generated method stub
-
+		//Make jason
+		Gson gson = new Gson();
+		Functions_GUI fg=new Functions_GUI(func_collection);
+		String json = gson.toJson(fg);
+		System.out.println(json);
+		
+		try 
+		{
+			PrintWriter pw = new PrintWriter(new File(file));
+			pw.write(json);
+			pw.close();
+		}//try
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+			return;
+		}//catch
+		
 	}
+	
 
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {

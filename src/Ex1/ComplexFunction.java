@@ -6,9 +6,7 @@ public class ComplexFunction implements complex_function {
 
 	private function Left,Right;//Represent comlex function by the tree
 	private Operation Root;//Represent specific operators
-	private MyRandom rand= new MyRandom(12345);
-	private final Integer min=-999;
-	private final Integer max=999;
+	
     
 	/**
 	 * Constructors:
@@ -387,6 +385,8 @@ public class ComplexFunction implements complex_function {
 	}//equals
 public boolean checkByInterval(function obj)
 {
+	Integer min=-999;
+	Integer max=999;
 	for (int i = min; i < max; i++) {
 		if(f(i)!=obj.f(i))
 			return false;
