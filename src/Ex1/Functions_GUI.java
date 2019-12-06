@@ -1,11 +1,22 @@
 package Ex1;
 
+
 import java.awt.Color;
 import java.awt.Font;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
+import com.google.gson.Gson;
+
+
 
 public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
@@ -173,18 +184,44 @@ public class Functions_GUI implements functions {
 			System.out.println(i+") "+   this.func_collection.get(i));
 		}
 	}
-
+    //Deserialization
 	@Override
 	public void initFromFile(String file) throws IOException {
-		// TODO Auto-generated method stub
+		Gson gson = new Gson();
+		try
+		{
+			FileReader reader = new FileReader(file);
+		    Functions_GUI fg = gson.fromJson(reader,Functions_GUI.class);
+			System.out.println(fg);
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 
 	}
-
+    //Serialization
 	@Override
 	public void saveToFile(String file) throws IOException {
-		// TODO Auto-generated method stub
+		//Make jason
+		Gson gson = new Gson();
+		Functions_GUI fg=new Functions_GUI(func_collection);
+		String json = gson.toJson(fg);
+		System.out.println(json);
+
+		try
+		{
+			PrintWriter pw = new PrintWriter(new File(file));
+			pw.write(json);
+			pw.close();
+		}//try
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+			return;
+		}//catch
 
 	}
+
 
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
@@ -195,16 +232,16 @@ public class Functions_GUI implements functions {
 		int j=0;
 		Iterator itr= this.iterator();
 		while(itr.hasNext()) {
-			
+
 			function f= this.func_collection.get(j);
-			
+
 			double[] x = new double[(int) (n+1)];
 			double[] y = new double[(int) (n+1)];
 
 			for (int i = 0; i <= n; i++) {
 				x[i] = range/n;
 				y[i] = f.f(x[i]);
-			}		
+			}
 			// rescale the coordinate system
 			StdDraw.setXscale(0, Math.PI);
 			StdDraw.setYscale(minY, maxY);
@@ -218,7 +255,7 @@ public class Functions_GUI implements functions {
 			for (double i = minY; i <= maxY; i=i+0.5) {
 				StdDraw.line(0, i, Math.PI, i);
 			}
-			//////// x axis		
+			//////// x axis
 			StdDraw.setPenColor(Color.BLACK);
 			StdDraw.setPenRadius(0.005);
 			StdDraw.line(0, y[(int) (n/2)], Math.PI, y[(n/2)]);
@@ -226,7 +263,7 @@ public class Functions_GUI implements functions {
 			for (int i = 0; i <= n; i=i+10) {
 				StdDraw.text(x[i]-0.07, -0.07, Integer.toString((i-n/2)));
 			}
-			//////// y axis	
+			//////// y axis
 			StdDraw.line(x[(n/2)], minY, x[(n/2)], maxY);
 			for (double i = minY; i <= maxY; i=i+0.5) {
 				StdDraw.text(x[(n/2)]-0.07, i+0.07, Double.toString(i));
