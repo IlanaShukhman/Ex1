@@ -20,7 +20,7 @@ public class Functions_GUI implements functions {
 
 	/**
 	 * Getters.
-	 * @return func_collenction 
+	 * @return func_collenction
 	 */
 	public ArrayList<function> get_func_collection(){
 		return this.func_collection;
@@ -43,14 +43,16 @@ public class Functions_GUI implements functions {
 	}
 
 	/**
-	 * Returns true if this collection contains the specified element. 
-	 * More formally, 
-	 * returns true if and only if this collection contains at least one element e such that: 
+	 * Returns true if this collection contains the specified element.
+	 * More formally,
+	 * returns true if and only if this collection contains at least one element e such that:
 	 * (o==null ? e==null : o.equals(e)).
 	 */
 	public boolean contains(Object o) {
+		if(o instanceof function) {
 		if(this.func_collection.contains(o))
 			return true;
+		}//contains
 		return false;
 	}
 	/**
@@ -73,11 +75,11 @@ public class Functions_GUI implements functions {
 	}
 
 	/**
-	 * Returns an array containing all of the elements in this collection; 
+	 * Returns an array containing all of the elements in this collection;
 	 * the runtime type of the returned array is that of the specified array.
 	 */
 	public <T> T[] toArray(T[] a) {
-		T[] t = (T[]) new Object[this.func_collection.size()];
+		T[] t = (T[]) new function[this.func_collection.size()];
 		for (int i = 0; i < t.length; i++) {
 			t[i]=(T) this.func_collection.get(i);
 		}
@@ -95,15 +97,19 @@ public class Functions_GUI implements functions {
 			return false;
 		this.func_collection.remove(o);
 		return true;
-	}
+		}//if
+		return false;
+	}//remove
 
 	/**
 	 * Returns true if this collection contains all of the elements in the specified collection.
 	 */
 	public boolean containsAll(Collection<?> c) {
-		if(this.func_collection.containsAll(c)) {
-			return true;
-		}
+		if(c instanceof function) {
+			if(this.func_collection.containsAll(c)) {
+				return true;
+			}//if
+		}//if
 		return false;
 	}
 	/**
@@ -145,7 +151,7 @@ public class Functions_GUI implements functions {
 		else if(this.func_collection.containsAll(f) && this.size()==f.size()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -157,7 +163,7 @@ public class Functions_GUI implements functions {
 		str=str.substring(0,str.length()-2);
 		return str;
 	}
-	
+
 	public void print() {
 		for (int i = 0; i < this.size(); i++) {
 			System.out.println(i+") "+   this.func_collection.get(i));
