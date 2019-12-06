@@ -50,8 +50,8 @@ public class Functions_GUI implements functions {
 	 */
 	public boolean contains(Object o) {
 		if(o instanceof function) {
-		if(this.func_collection.contains(o))
-			return true;
+			if(this.func_collection.contains(o))
+				return true;
 		}//contains
 		return false;
 	}
@@ -67,7 +67,7 @@ public class Functions_GUI implements functions {
 	 * Returns an array containing all of the elements in this collection.
 	 */
 	public Object[] toArray() {
-		Object[] obj = new Object[this.func_collection.size()];
+		Object[] obj = new function[this.func_collection.size()];
 		for (int i = 0; i < obj.length; i++) {
 			obj[i]=this.func_collection.get(i);
 		}
@@ -97,8 +97,6 @@ public class Functions_GUI implements functions {
 			return false;
 		this.func_collection.remove(o);
 		return true;
-		}//if
-		return false;
 	}//remove
 
 	/**
@@ -144,23 +142,27 @@ public class Functions_GUI implements functions {
 		this.func_collection.clear();
 	}
 
-	public boolean equals(Functions_GUI f) {
-		if(this.size()==0 && (f.size()==0))
-			return true;
+	public boolean equals(Object f) {
+		if(f instanceof Functions_GUI)
+		{
+			if(this.size()==0 && (((Functions_GUI) f).size()==0))
+				return true;
 
-		else if(this.func_collection.containsAll(f) && this.size()==f.size()) {
-			return true;
-		}
+			else if(this.func_collection.containsAll((Collection<?>) f) && this.size()==((Functions_GUI) f).size()) {
+				return true;
+			}//else if
 
+		}//if
 		return false;
-	}
+	}//equals
 
 	public String toString() {
 		String str="";
 		for (int i = 0; i < this.func_collection.size(); i++) {
 			str+=this.func_collection.get(i).toString()+", ";
 		}
-		str=str.substring(0,str.length()-2);
+		if(str.length()>2)
+			str=str.substring(0,str.length()-2);
 		return str;
 	}
 

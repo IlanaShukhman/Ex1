@@ -176,7 +176,7 @@ class Functions_GUITest {
 		f.add(f2);
 		f.clear();
 		Functions_GUI g=new Functions_GUI();
-		assertTrue(f.containsAll(g));
+		assertEquals(f, g, "ERR: trying to Clear collection. We expected to: "+f.toString()+" but we got: "+g.toString());
 	}
 
 //	@Test
