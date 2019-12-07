@@ -1,0 +1,2 @@
+Min ( Divid ( 1.0x^3 , 1.0x ) , None ( 1.0x , null ) )
+Max ( Times ( 1.0x^2 , 1.0x ) , Plus ( 1.0x+2.0 , 2.0 ) )

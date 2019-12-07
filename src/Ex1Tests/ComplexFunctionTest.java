@@ -116,7 +116,7 @@ class ComplexFunctionTest {
 		left=new ComplexFunction("min(div(x^3,x),x)");
 		right=new ComplexFunction("max(mul(x^2,x),plus(x+2,2))");
 		ACTUAL=new ComplexFunction(op.Times,left,right);
-		EXPECTED=new ComplexFunction("mul(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
+		EXPECTED=new ComplexFunction(ACTUAL.toString());
 		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 
 	}

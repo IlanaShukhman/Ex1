@@ -3,7 +3,7 @@ package Ex1;
 
 import java.awt.Color;
 import java.awt.Font;
-
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,10 +11,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+
 
 
 
@@ -191,40 +198,47 @@ public class Functions_GUI implements functions {
 	//Deserialization
 	@Override
 	public void initFromFile(String file) throws IOException {
-		Gson gson = new Gson();
-		try
-		{
-			FileReader reader = new FileReader(file);
-			Functions_GUI fg = gson.fromJson(reader,Functions_GUI.class);
-			System.out.println(fg);
-		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+        String split = ",";
+        String line="";
+        try 
+        {
+        	BufferedReader br = new BufferedReader(new FileReader(file));
+        	 while ((line = br.readLine()) != null) 
+             {
+        		 function f=new ComplexFunction(line);
+        		 f.initFromString(line);
+        		 add(f);
+             }//while
 
-	}
-	//Serialization
+        }//try
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.out.println("could not read file");
+        }//catch
+
+	}//initFromFile
+
 	@Override
 	public void saveToFile(String file) throws IOException {
-		//Make jason
-		Gson gson = new Gson();
-		Functions_GUI fg=new Functions_GUI(func_collection);
-		String json = gson.toJson(fg);
-		System.out.println(json);
-
-		try
-		{
-			PrintWriter pw = new PrintWriter(new File(file));
-			pw.write(json);
-			pw.close();
-		}//try
-		catch (FileNotFoundException e)
-		{
-			e.printStackTrace();
-			return;
-		}//catch
-
-	}
+		try {
+			File f=new File(file);
+			PrintWriter print=new PrintWriter(f);
+			StringBuffer into=new StringBuffer();
+			Iterator<function> it=iterator();
+			int count=1;
+			while(it.hasNext())
+			{
+				function g=it.next();
+				into.append(g.toString()+"\n");
+				count++;
+			}//while
+			print.write(into.toString());
+			print.close();
+		} catch (Exception e) {
+			System.out.println("ERR: failing to save this list.");
+		}
+	}//SaveToFile
 
 
 	@Override
@@ -317,5 +331,17 @@ public class Functions_GUI implements functions {
 		// TODO Auto-generated method stub
 
 	}
-
+	public <T> ArrayList<T> getObjectList(String jsonString,Class<T> cls){
+		ArrayList<T> list = new ArrayList<T>();
+	    try {
+	        Gson gson = new Gson();
+	        JsonArray arry = new JsonParser().parse(jsonString).getAsJsonArray();
+	        for (JsonElement jsonElement : arry) {
+	            list.add(gson.fromJson(jsonElement, cls));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return list;
+	}
 }
