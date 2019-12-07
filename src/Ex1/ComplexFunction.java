@@ -163,8 +163,10 @@ public class ComplexFunction implements complex_function {
 			return Root.Comp;
 		else if(oper.equals("mul") || oper.equals("times"))
 			return Root.Times;
-		else if(oper.equals("div"))
+		else if(oper.equals("div") || oper.equals("divid"))
 			return Root.Divid;
+		else if(oper.equals("none"))
+			return Root.None;
 		else
 			return Root.Error;
 	}//WhichOP
@@ -404,6 +406,8 @@ public boolean checkByInterval(function obj)
 	public String toString() {
 		String str="";
 		str=Root +" ( " + Left +" , "+ Right +" )";
+		str=str.replace("None ( " , "");
+		str=str.replace(", null )", "");
 		return str;
 	}
 
