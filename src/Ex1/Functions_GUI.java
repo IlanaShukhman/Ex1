@@ -268,10 +268,12 @@ public class Functions_GUI implements functions {
 	}//SaveToFile
 
 
-	@Override
+
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		Color[] color= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange
 				,Color.pink};
+
+		StdDraw.setCanvasSize(width,height);
 
 		int colorNum=0;
 		double maxY = ry.get_max(), minY = ry.get_min();
@@ -287,22 +289,44 @@ public class Functions_GUI implements functions {
 		Range Height=new Range(height*minY/rangeY,height*maxY/rangeY);
 
 
+		StdDraw.setXscale(Width.get_min(), Width.get_max());
+		StdDraw.setYscale(Height.get_min(), Height.get_max());
+
+
+		/*The stepX is calculated according to the resolution.
+		 *It the resolution is higher, the step is smaller, so there will be more steps in rangeX.
+		 */
 		double stepX=rangeX/n;
+		
+		/*
+		 * stepW and stepH are how many pixels are there in x=1 and y=1
+		 */
 		double stepW=width/rangeX;
-		double stepY=rangeY/n;
 		double stepH=height/rangeY;
 
+		////////vertical lines
+		StdDraw.setPenColor(Color.LIGHT_GRAY);
+		drawLines(Width,Height,stepW,stepH);
+		StdDraw.setPenColor(Color.BLACK);
+		StdDraw.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+		addNumbers(Width,Height,stepW,stepH);
+
+		///////Draw x axis and y axis
+		StdDraw.line(Width.get_min(), 0, Width.get_max(), 0);
+		StdDraw.line(0, Height.get_min(), 0, Height.get_max());
 
 		Iterator<function> itr= iterator();
 
+		//go through all the functions in Functions_GUI:
 		while(itr.hasNext()) {
 
 			function f= itr.next();
+
 			double[] x = new double[n+1];
 			double[] y = new double[n+1];
-			double[] w = new double[n+1];
-			double[] h = new double[n+1];
 
+
+			//calculate (x,y) according to the resolution
 			for (int i = 0; i <= n; i++) {
 				x[i] = minX+i*stepX;
 
@@ -314,8 +338,8 @@ public class Functions_GUI implements functions {
 
 				}
 				//(x,y) place on the screen:
-				w[i] = (x[i]*Width.get_max())/rx.get_max();
-				h[i] = (y[i]*Height.get_max())/ry.get_max();
+				x[i] = (x[i]*Width.get_max())/rx.get_max();
+				y[i] = (y[i]*Height.get_max())/ry.get_max();
 
 			}
 
@@ -323,46 +347,12 @@ public class Functions_GUI implements functions {
 			StdDraw.setXscale(Width.get_min(), Width.get_max());
 			StdDraw.setYscale(Height.get_min(), Height.get_max());
 
-			//////// vertical lines
-			StdDraw.setPenColor(Color.LIGHT_GRAY);
-
-			int j=0;
-			for (double i = 0; i <= Width.get_max(); i=i+stepW){
-				StdDraw.line(i, Height.get_min(), i, Height.get_max());
-				StdDraw.text(i-0.07, -0.07, Integer.toString(j));
-				j--;
-			}
-			j=0;
-			for (double i = 0; i >= Width.get_min(); i=i-stepW){
-				StdDraw.line(i, Height.get_min(), i, Height.get_max());
-				StdDraw.text(i-0.07, -0.07, Integer.toString(j));
-				j--;
-			}
-			j=0;
-			//////// horizontal  lines
-			for (double i = 0; i <= Height.get_max(); i=i+stepH) {
-				StdDraw.line(Width.get_min(), i, Width.get_max(), i);
-				StdDraw.text(0, i-0.07, Double.toString(j));
-				j++;
-			}
-			j=0;
-			for (double i = 0; i >= Height.get_min(); i=i-stepH) {
-				StdDraw.line(Width.get_min(), i, Width.get_max(), i);
-				StdDraw.text(0, i-0.07, Double.toString(j));
-				j--;
-			}
-
-			///////Draw x axis and y axis
-			StdDraw.setPenColor(Color.BLACK);
-			StdDraw.line(Width.get_min(), 0, Width.get_max(), 0);
-			StdDraw.line(0, Height.get_min(), 0, Height.get_max());
-			StdDraw.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
 			StdDraw.setPenColor(color[colorNum]);
 
 			// plot the approximation to the function
 			for (int i = 0; i < n; i++) {
-				StdDraw.line(w[i], h[i], w[i+1], h[i+1]);
+				StdDraw.line(x[i], y[i], x[i+1], y[i+1]);
 			}
 
 			//change color for next turn 
@@ -371,31 +361,98 @@ public class Functions_GUI implements functions {
 				colorNum=0;
 
 		}
-	}
+	}//drawFunction
+	/**
+	 * This function draw horizontal and vertical lines according to the received parameters:
+	 * @param Width the width range in pixels
+	 * @param Height the height range in pixels
+	 * @param stepW how much pixels is x=1
+	 * @param stepH how much pixels is y=1
+	 */
+
+	public void drawLines(Range Width, Range Height, double stepW, double stepH) {
+
+		/////// vertical lines
+		for (double i = 0; i <= Width.get_max(); i=i+stepW){
+			StdDraw.line(i, Height.get_min(), i, Height.get_max());
+
+		}
+		for (double i = 0; i >= Width.get_min(); i=i-stepW){
+			StdDraw.line(i, Height.get_min(), i, Height.get_max());
+
+		}
+
+		//////// horizontal  lines
+		for (double i = 0; i <= Height.get_max(); i=i+stepH) {
+			StdDraw.line(Width.get_min(), i, Width.get_max(), i);
+
+		}
+
+		for (double i = 0; i >= Height.get_min(); i=i-stepH) {
+			StdDraw.line(Width.get_min(), i, Width.get_max(), i);
+
+		}
+	}//drawLines
+
+	/**
+	 * This method adds the numbers to the x axis and y axis
+	 * @param Width the width range in pixels
+	 * @param Height the height range in pixels
+	 * @param stepW how much pixels is x=1
+	 * @param stepH how much pixels is y=1
+	 */
+
+	public void addNumbers(Range Width, Range Height, double stepW, double stepH) {
+
+		int j=0;
+		for (double i = 0; i <= Width.get_max(); i=i+stepW){
+			StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+			j++;
+		}
+		j=0;
+		for (double i = 0; i >= Width.get_min(); i=i-stepW){			
+			StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+			j--;
+		}
+		j=0;
+		//////// horizontal  lines
+		for (double i = 0; i <= Height.get_max(); i=i+stepH) {		
+			StdDraw.text(0, i-0.07, Double.toString(j));
+			j++;
+		}
+		j=0;
+		for (double i = 0; i >= Height.get_min(); i=i-stepH) {
+			StdDraw.text(0, i-0.07, Double.toString(j));
+			j--;
+		}
+	}//addNumbers
+
+
+
 
 
 	@Override
 	public void drawFunctions(String json_file) {
-		if(ifJson(json_file))
-			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
-		Gson gson = new Gson();		
-		try 
-		{
-			FileReader reader = new FileReader(json_file);
-			Graph_Para param = gson.fromJson(reader,Graph_Para.class);
-			System.out.println(param);
-			drawFunctions(param.getWidth(), param.getHeight(), param.getRx(), param.getRy(), param.getResolution());
-		}//try
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}//catch
-	
+		//		if(ifJson(json_file))
+		//			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
+		//		Gson gson = new Gson();		
+		//		try 
+		//		{
+		//			FileReader reader = new FileReader(json_file);
+		//			Graph_Para param = gson.fromJson(reader,Graph_Para.class);
+		//			System.out.println(param);
+		//			drawFunctions(param.getWidth(), param.getHeight(), param.getRx(), param.getRy(), param.getResolution());
+		//		}//try
+		//		catch (FileNotFoundException e) {
+		//			e.printStackTrace();
+		//		}//catch
+
 	}//drawFunctions
-/**
- * 
- * @param name - path file
- * @return - if the path file have .json in the suffix.
- */
+	/**
+	 * 
+	 * @param name - path file
+	 * @return - if the path file have .json in the suffix.
+	 */
 	public boolean ifJson(String name)
 	{
 		int index=name.indexOf('.');
