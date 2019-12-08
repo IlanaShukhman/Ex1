@@ -175,14 +175,20 @@ public class Functions_GUI implements functions {
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		Iterator<function> it=iterator();
+		int counter=0;
+		ArrayList<function> del=new ArrayList<function>();
 		while(it.hasNext())
 		{
 			function f=it.next();
 			if(!c.contains(f))
-				remove(f);
+			{
+				del.add(f);
+			}//if
+			
 		}//while
+		removeAll(del);
 		return true;
-	}
+	}//retainAll
 	/**
 	 * Removes all of the elements from this collection (optional operation).
 	 */

@@ -158,13 +158,17 @@ class Functions_GUITest {
 
 	@Test
 	void testRetainAll() {
-		Collection<function> c=new ArrayList<function>();
-		Functions_GUI f=new Functions_GUI(arr);
-		Functions_GUI g=new Functions_GUI(arr2);
-		f.add(f3);
-		e=c.add(f3);
-		e=f.retainAll(g);
-		assertEquals(f,c);
+		Collection<function> c=new ArrayList<function>();//empty
+		Functions_GUI f=new Functions_GUI();
+		Functions_GUI g=new Functions_GUI();
+		f.add(f1);
+		f.add(f2);
+		g.add(f2);
+		g.add(f3);
+		e=c.add(f2);//Only f3
+		e=f.retainAll(g.get_func_collection());//f is f3
+		System.out.println(f.toString());
+		assertEquals(f.get_func_collection(),c);
 		
 	}
 
