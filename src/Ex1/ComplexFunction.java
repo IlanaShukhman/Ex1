@@ -32,6 +32,10 @@ public class ComplexFunction implements complex_function {
 		this.Root=cf.getOp();
 	}//ComplexFunction
 	
+	public ComplexFunction(function f) {
+		this(f.toString());
+	}
+	
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
 

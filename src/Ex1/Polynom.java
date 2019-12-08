@@ -34,6 +34,7 @@ public class Polynom implements Polynom_able{
 	public Polynom(String s) {
 		if(s.isEmpty())
 			throw new RuntimeException("ERR: your string can't be empty"); 
+		s=s.replace(" ", "");
 		initializing();
 		s=s.toLowerCase();
 		ArrayList<String> monoms=partStrPoly(s);
