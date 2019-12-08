@@ -198,24 +198,24 @@ public class Functions_GUI implements functions {
 	//Deserialization
 	@Override
 	public void initFromFile(String file) throws IOException {
-        String split = ",";
-        String line="";
-        try 
-        {
-        	BufferedReader br = new BufferedReader(new FileReader(file));
-        	 while ((line = br.readLine()) != null) 
-             {
-        		 function f=new ComplexFunction(line);
-        		 f.initFromString(line);
-        		 add(f);
-             }//while
+		String split = ",";
+		String line="";
+		try 
+		{
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			while ((line = br.readLine()) != null) 
+			{
+				function f=new ComplexFunction(line);
+				f.initFromString(line);
+				add(f);
+			}//while
 
-        }//try
-        catch (IOException e) 
-        {
-            e.printStackTrace();
-            System.out.println("could not read file");
-        }//catch
+		}//try
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			System.out.println("could not read file");
+		}//catch
 
 	}//initFromFile
 
@@ -245,43 +245,29 @@ public class Functions_GUI implements functions {
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
 		Color[] color= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange
 				,Color.pink};
-		
+
 		int colorNum=0;
-
-
-		Range Width=new Range(-width/2,width/2);
-		Range Height=new Range(0-height/2,height/2);
-
-		// number of line segments to plot
-		int n=resolution;
-		double range=rx.get_max()-rx.get_min();
-		double stepX=range/n;
-
 		double maxY = ry.get_max(), minY = ry.get_min();
 		double maxX = rx.get_max(), minX = rx.get_min();
 
 
-		// rescale the coordinate system
-		StdDraw.setXscale(Width.get_min(), Width.get_max());
-		StdDraw.setYscale(Height.get_min(), Height.get_max());
+		// calculate all the parameters needed to draw the function:
+		int n=resolution;
+		double rangeX=rx.get_max()-rx.get_min();
+		double rangeY=ry.get_max()-ry.get_min();
 
-		//////// vertical lines
-		StdDraw.setPenColor(Color.LIGHT_GRAY);
-		for (int i = (int) Width.get_min(); i <= Width.get_max(); i=i+n/4){
-			StdDraw.line(i, Height.get_min(), i, Height.get_max());
-		}
-		//////// horizontal  lines
-		for (double i = Height.get_min(); i <= Height.get_max(); i=i+n/4) {
-			StdDraw.line(Width.get_min(), i, Width.get_max(), i);
-		}
+		Range Width=new Range(width*minX/rangeX,width*maxX/rangeX);
+		Range Height=new Range(height*minY/rangeY,height*maxY/rangeY);
 
-		///////Draw x axis and y axis
-		StdDraw.setPenColor(Color.BLACK);
-		StdDraw.line(Width.get_min(), 0, Width.get_max(), 0);
-		StdDraw.line(0, Height.get_min(), 0, Height.get_max());
-		StdDraw.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+
+		double stepX=rangeX/n;
+		double stepW=width/rangeX;
+		double stepY=rangeY/n;
+		double stepH=height/rangeY;
+
 
 		Iterator<function> itr= iterator();
+
 		while(itr.hasNext()) {
 
 			function f= itr.next();
@@ -292,33 +278,67 @@ public class Functions_GUI implements functions {
 
 			for (int i = 0; i <= n; i++) {
 				x[i] = minX+i*stepX;
+
+				//in case of dividing by 0
 				try {
 					y[i] = f.f(x[i]);
 				}
 				catch(Exception e) {
 
 				}
+				//(x,y) place on the screen:
 				w[i] = (x[i]*Width.get_max())/rx.get_max();
-				h[i] = (y[i]*Width.get_max())/ry.get_max();
+				h[i] = (y[i]*Height.get_max())/ry.get_max();
 
 			}
 
+			// rescale the coordinate system
+			StdDraw.setXscale(Width.get_min(), Width.get_max());
+			StdDraw.setYscale(Height.get_min(), Height.get_max());
 
-//
-//			//////// x axis
-//			for (int i = 0; i <= n; i=i+n) {
-//				StdDraw.text(w[i]-0.07, -0.07, Integer.toString((int) (x[i]/2)));
-//			}
-//			//////// y axis
-//			for (double i = Height.get_min(); i <= Height.get_max(); i=i+n) {
-//				StdDraw.text(w[(n/2)]-0.07, i+0.07, Double.toString(i));
-//			}
+			//////// vertical lines
+			StdDraw.setPenColor(Color.LIGHT_GRAY);
+
+			int j=0;
+			for (double i = 0; i <= Width.get_max(); i=i+stepW){
+				StdDraw.line(i, Height.get_min(), i, Height.get_max());
+				StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+				j--;
+			}
+			j=0;
+			for (double i = 0; i >= Width.get_min(); i=i-stepW){
+				StdDraw.line(i, Height.get_min(), i, Height.get_max());
+				StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+				j--;
+			}
+			j=0;
+			//////// horizontal  lines
+			for (double i = 0; i <= Height.get_max(); i=i+stepH) {
+				StdDraw.line(Width.get_min(), i, Width.get_max(), i);
+				StdDraw.text(0, i-0.07, Double.toString(j));
+				j++;
+			}
+			j=0;
+			for (double i = 0; i >= Height.get_min(); i=i-stepH) {
+				StdDraw.line(Width.get_min(), i, Width.get_max(), i);
+				StdDraw.text(0, i-0.07, Double.toString(j));
+				j--;
+			}
+
+			///////Draw x axis and y axis
+			StdDraw.setPenColor(Color.BLACK);
+			StdDraw.line(Width.get_min(), 0, Width.get_max(), 0);
+			StdDraw.line(0, Height.get_min(), 0, Height.get_max());
+			StdDraw.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
 			StdDraw.setPenColor(color[colorNum]);
+
 			// plot the approximation to the function
 			for (int i = 0; i < n; i++) {
-				StdDraw.line(w[i], h[i], w[i+1], h[i+1]);
+				StdDraw.line(x[i], y[i], x[i+1], y[i+1]);
 			}
+
+			//change color for next turn 
 			colorNum++;
 			if(colorNum==8)
 				colorNum=0;
@@ -326,22 +346,24 @@ public class Functions_GUI implements functions {
 		}
 	}
 
+
 	@Override
 	public void drawFunctions(String json_file) {
 		// TODO Auto-generated method stub
 
 	}
+
 	public <T> ArrayList<T> getObjectList(String jsonString,Class<T> cls){
 		ArrayList<T> list = new ArrayList<T>();
-	    try {
-	        Gson gson = new Gson();
-	        JsonArray arry = new JsonParser().parse(jsonString).getAsJsonArray();
-	        for (JsonElement jsonElement : arry) {
-	            list.add(gson.fromJson(jsonElement, cls));
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    return list;
+		try {
+			Gson gson = new Gson();
+			JsonArray arry = new JsonParser().parse(jsonString).getAsJsonArray();
+			for (JsonElement jsonElement : arry) {
+				list.add(gson.fromJson(jsonElement, cls));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
