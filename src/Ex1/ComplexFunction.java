@@ -375,9 +375,9 @@ public class ComplexFunction implements complex_function {
 					  {
 						  return Left.equals(obj);
 					  }//if
-					  System.out.println("ERR: cant compare between complex functions");	
+					  System.out.println("ERR: can't compare between complex functions");	
 				}//else if
-				   System.out.println("ERR: cant compare between complex functions");	
+				   System.out.println("ERR: can't compare between complex functions");	
 				}//if
 				else if(obj instanceof ComplexFunction)
 				{

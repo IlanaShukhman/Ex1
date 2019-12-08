@@ -161,8 +161,9 @@ class Functions_GUITest {
 		Collection<function> c=new ArrayList<function>();
 		Functions_GUI f=new Functions_GUI(arr);
 		Functions_GUI g=new Functions_GUI(arr2);
-		e=c.add(f1);
-		e=f.retainAll(c);
+		f.add(f3);
+		e=c.add(f3);
+		e=f.retainAll(g);
 		assertEquals(f,c);
 		
 	}
