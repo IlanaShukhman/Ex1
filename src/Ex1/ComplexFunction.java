@@ -6,8 +6,8 @@ public class ComplexFunction implements complex_function {
 
 	private function Left,Right;//Represent comlex function by the tree
 	private Operation Root;//Represent specific operators
-	
-    
+
+
 	/**
 	 * Constructors:
 	 */
@@ -25,17 +25,18 @@ public class ComplexFunction implements complex_function {
 		this.Right=r;
 		this.Root=op;
 	}//ComplexFunction
-	
+
 	public ComplexFunction(ComplexFunction cf) {
 		this.Left=cf.left();
 		this.Right=cf.right();
 		this.Root=cf.getOp();
 	}//ComplexFunction
-	
+
 	public ComplexFunction(function f) {
-		this(f.toString());
+		initFromString(f.toString());
 	}
-	
+
+
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
 
@@ -194,7 +195,7 @@ public class ComplexFunction implements complex_function {
 	 */
 	public function copy() {
 		function f= new ComplexFunction();
-		f.initFromString(toString());
+		f=f.initFromString(toString());
 		return f;
 	}//copy
 
@@ -340,7 +341,7 @@ public class ComplexFunction implements complex_function {
 	public function left() {
 		return this.Left;
 	}//Left
-	
+
 	/**
 	 * Returns the right function of this ComplexFunction
 	 */
@@ -369,15 +370,15 @@ public class ComplexFunction implements complex_function {
 			{
 				if((obj instanceof Polynom || obj instanceof Monom))
 				{
-				   if(Right==null)
-				   {
-					  if(Left instanceof Polynom || Left instanceof Monom)
-					  {
-						  return Left.equals(obj);
-					  }//if
-					  System.out.println("ERR: can't compare between complex functions");	
-				}//else if
-				   System.out.println("ERR: can't compare between complex functions");	
+					if(Right==null)
+					{
+						if(Left instanceof Polynom || Left instanceof Monom)
+						{
+							return Left.equals(obj);
+						}//if
+						System.out.println("ERR: can't compare between complex functions");	
+					}//else if
+					System.out.println("ERR: can't compare between complex functions");	
 				}//if
 				else if(obj instanceof ComplexFunction)
 				{
@@ -386,23 +387,23 @@ public class ComplexFunction implements complex_function {
 				}//else if
 				else
 					throw new RuntimeException("ERR: trying to mix meat and milk those objects are different");
+			}//if
+			return false;
 		}//if
 		return false;
-	}//if
-	return false;
 
-		
+
 	}//equals
-public boolean checkByInterval(function obj)
-{
-	Integer min=80;
-	Integer max=100;
-	for (int i = min; i < max; i++) {
-		if(f(i)!=obj.f(i))
-			return false;
-	}
-	return true;
-}//checkByInterval
+	public boolean checkByInterval(function obj)
+	{
+		Integer min=80;
+		Integer max=100;
+		for (int i = min; i < max; i++) {
+			if(f(i)!=obj.f(i))
+				return false;
+		}
+		return true;
+	}//checkByInterval
 
 	/**
 	 * Returns this complexFunction as a string.
