@@ -117,14 +117,11 @@ class Functions_GUITest {
 
 	@Test
 	void testContainsAll() {
-		Collection<function> c=new ArrayList<function>();
+		ArrayList<function> c=new ArrayList<function>();
 		Functions_GUI f=new Functions_GUI(arr);
 		e=c.add(f1);
 		e=c.add(f2);
-		assertEquals(f,c);
-		Functions_GUI g=new Functions_GUI(arr);
-		e=f.containsAll(g);
-		assertTrue(e);
+		assertTrue(f.containsAll(c));
 		
 	}
 

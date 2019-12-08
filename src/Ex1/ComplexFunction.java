@@ -391,8 +391,8 @@ public class ComplexFunction implements complex_function {
 	}//equals
 public boolean checkByInterval(function obj)
 {
-	Integer min=-999;
-	Integer max=999;
+	Integer min=80;
+	Integer max=100;
 	for (int i = min; i < max; i++) {
 		if(f(i)!=obj.f(i))
 			return false;

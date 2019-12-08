@@ -76,10 +76,16 @@ public class Functions_GUI implements functions {
 	 */
 	public boolean contains(Object o) {
 		if(o instanceof function) {
-			if(this.func_collection.contains(o))
-				return true;
+			Iterator<function> it=iterator();
+			while(it.hasNext())
+			{
+				function f=it.next();
+				if(f.equals(o))
+					return true;
+			}//while
+			return false;
 		}//contains
-		return false;
+		throw new RuntimeException("ERR: Trying to compare different object instead function");
 	}
 	/**
 	 * Returns an iterator over the elements in this collection.
@@ -115,7 +121,7 @@ public class Functions_GUI implements functions {
 	public boolean add(function e) {
 		this.func_collection.add(e);
 		return true;
-	}
+	}//add
 
 
 	public boolean remove(Object o) {
@@ -129,13 +135,23 @@ public class Functions_GUI implements functions {
 	 * Returns true if this collection contains all of the elements in the specified collection.
 	 */
 	public boolean containsAll(Collection<?> c) {
-		if(c instanceof function) {
-			if(this.func_collection.containsAll(c)) {
-				return true;
-			}//if
-		}//if
-		return false;
-	}
+		if(c.size()>size())
+			return false;
+		else
+		{
+			Object [] a=c.toArray();
+			for (int i = 0; i < a.length; i++) {
+				if(a[i] instanceof function)
+				{
+					if(!contains(a[i]))
+						return false;
+				}//if
+				else
+					throw new RuntimeException("ERR: this is not function so you cant compare");
+			}//for
+			return true;
+		}//else
+	}//containsAll
 	/**
 	 * Adds all of the elements in the specified collection to this collection (optional operation).
 	 */
@@ -167,20 +183,29 @@ public class Functions_GUI implements functions {
 	public void clear() {
 		this.func_collection.clear();
 	}
-
+	/**
+	 * We can't yet compare two ComplexFunctions.
+	 */
 	public boolean equals(Object f) {
-		if(f instanceof Functions_GUI)
+		if(f instanceof Functions_GUI)//If they are the same object
 		{
-			if(this.size()==0 && (((Functions_GUI) f).size()==0))
+			if(this.size()==0 && (((Functions_GUI) f).size()==0))//
 				return true;
-
-			else if(this.func_collection.containsAll((Collection<?>) f) && this.size()==((Functions_GUI) f).size()) {
+			else if(this.size()==((Functions_GUI) f).size())//Now we can compare them each other
+			{
+				Iterator<function> it=iterator();
+				while(it.hasNext())
+				{
+					function g=it.next();
+					if(!((Functions_GUI) f).contains(g))//Its good for polynoms and monoms Dif for ComplexFunction
+						return false;
+				}//while
 				return true;
-			}//else if
-
+			}//else
+			return false;
 		}//if
 		return false;
-	}//equals
+}//equals
 
 	public String toString() {
 		String str="";
