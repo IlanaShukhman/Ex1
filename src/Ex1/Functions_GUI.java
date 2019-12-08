@@ -85,7 +85,7 @@ public class Functions_GUI implements functions {
 			}//while
 			return false;
 		}//contains
-		throw new RuntimeException("ERR: Trying to compare different object instead function");
+		return false;
 	}
 	/**
 	 * Returns an iterator over the elements in this collection.
@@ -174,7 +174,7 @@ public class Functions_GUI implements functions {
 	 */
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		this.func_collection.retainAll(c);
+		Iterator<function> it=iterator();
 		return true;
 	}
 	/**
