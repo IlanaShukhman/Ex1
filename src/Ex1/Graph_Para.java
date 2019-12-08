@@ -52,6 +52,11 @@ public class Graph_Para {
 	public void setResolution(int resolution) {
 		this.resolution = resolution;
 	}
+	@Override
+	public String toString() {
+		return "Graph_Para [width=" + width + ", height=" + height + ", rx=" + rx + ", ry=" + ry + ", resolution="
+				+ resolution + "]";
+	}
 	
 	
 }
