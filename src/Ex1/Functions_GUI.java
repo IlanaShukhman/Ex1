@@ -25,6 +25,8 @@ import com.google.gson.reflect.TypeToken;
 
 
 
+
+
 public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
 
@@ -335,7 +337,7 @@ public class Functions_GUI implements functions {
 
 			// plot the approximation to the function
 			for (int i = 0; i < n; i++) {
-				StdDraw.line(x[i], y[i], x[i+1], y[i+1]);
+				StdDraw.line(w[i], h[i], w[i+1], h[i+1]);
 			}
 
 			//change color for next turn 
@@ -349,21 +351,32 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(String json_file) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public <T> ArrayList<T> getObjectList(String jsonString,Class<T> cls){
-		ArrayList<T> list = new ArrayList<T>();
-		try {
-			Gson gson = new Gson();
-			JsonArray arry = new JsonParser().parse(jsonString).getAsJsonArray();
-			for (JsonElement jsonElement : arry) {
-				list.add(gson.fromJson(jsonElement, cls));
-			}
-		} catch (Exception e) {
+		if(ifJson(json_file))
+			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
+		Gson gson = new Gson();		
+		try 
+		{
+			FileReader reader = new FileReader(json_file);
+			Graph_Para param = gson.fromJson(reader,Graph_Para.class);
+			System.out.println(param);
+			drawFunctions(param.getWidth(), param.getHeight(), param.getRx(), param.getRy(), param.getResolution());
+		}//try
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}
-		return list;
-	}
+		}//catch
+	
+	}//drawFunctions
+/**
+ * 
+ * @param name - path file
+ * @return - if the path file have .json in the suffix.
+ */
+	public boolean ifJson(String name)
+	{
+		int index=name.indexOf('.');
+		String type=name.substring(index);
+		if(name.equals("json"))
+			return true;
+		return false;	
+	}//ifJson
 }
