@@ -1,19 +1,33 @@
 package Ex1Tests;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.Test;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import Ex1.ComplexFunction;
 import Ex1.Functions_GUI;
+import Ex1.Graph_Para;
 import Ex1.Monom;
 import Ex1.Operation;
 import Ex1.Polynom;
 import Ex1.Range;
 import Ex1.function;
+
 
 class Functions_GUITest {
 	
@@ -167,7 +181,7 @@ class Functions_GUITest {
 		g.add(f3);
 		e=c.add(f2);//Only f3
 		e=f.retainAll(g.get_func_collection());//f is f3
-		System.out.println(f.toString());
+		//System.out.println(f.toString());
 		assertEquals(f.get_func_collection(),c);
 		
 	}
@@ -184,17 +198,28 @@ class Functions_GUITest {
 		assertEquals(f, g, "ERR: trying to Clear collection. We expected to: "+f.toString()+" but we got: "+g.toString());
 	}
 
-//	@Test
-	void testInitFromFile() {
-		fail("Not yet implemented");
-	}
-
-//	@Test
-	void testSaveToFile() {
-		fail("Not yet implemented");
+	@Test
+	void testInitFromFile() throws IOException {
+		Functions_GUI f=new Functions_GUI(arr);
+		Functions_GUI g=new Functions_GUI();
+		String file="functions.txt";
+		f.saveToFile(file);
+		g.initFromFile(file);
+		assertEquals(f, g, "ERR: trying to saveToFile. We expected to: "+f.toString()+" but we got: "+g.toString());
 	}
 
 	@Test
+	void testSaveToFile() throws IOException {
+		Functions_GUI f=new Functions_GUI(arr);
+		Functions_GUI g=new Functions_GUI();
+		String file="functions.txt";
+		f.saveToFile(file);
+		g.initFromFile(file);
+		assertEquals(f, g, "ERR: trying to saveToFile. We expected to: "+f.toString()+" but we got: "+g.toString());
+		
+	}
+
+	//@Test
 	void testDrawFunctionsIntIntRangeRangeInt() {
 		Functions_GUI data = FunctionsFactory();
 		int w=1000, h=600, res=200;
@@ -203,10 +228,16 @@ class Functions_GUITest {
 		data.drawFunctions(w,h,rx,ry,res);
 	}
 
-//	@Test
+	@Test
 	void testDrawFunctionsString() {
-		fail("Not yet implemented");
-	}
+		String file="GUI_params.json";
+		Functions_GUI g = new Functions_GUI(arr);
+		g.add(f3);
+		g.add(f4);
+		g.drawFunctions(file);
+		
+		
+	}//testDrawFunctionsString
 	
 	public static Functions_GUI FunctionsFactory() {
 		Functions_GUI ans = new Functions_GUI();
@@ -219,7 +250,7 @@ class Functions_GUITest {
 		ComplexFunction cf3 = new ComplexFunction(p3.toString());
 		for(int i=1;i<s3.length;i++) {
 			cf3.mul(new Polynom(s3[i]));
-		}
+		}//for
 		
 		ComplexFunction cf = new ComplexFunction(Operation.Plus, p1,p2);
 		ComplexFunction cf4 = new ComplexFunction(Operation.Divid, new Polynom("x +1"),cf3);
@@ -245,6 +276,5 @@ class Functions_GUITest {
 		ans.add(max);
 		ans.add(min);		
 		return ans;
-	}
-
+	}//FunctionsFactory
 }

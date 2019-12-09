@@ -18,6 +18,7 @@ import java.util.Iterator;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
@@ -265,13 +266,11 @@ public class Functions_GUI implements functions {
 			PrintWriter print=new PrintWriter(f);
 			StringBuffer into=new StringBuffer();
 			Iterator<function> it=iterator();
-			int count=1;
+			//int count=1;
 			while(it.hasNext())
 			{
 				function g=it.next();
-				into.append(g.toString()+"\n");
-				count++;
-			}//while
+				into.append(g.toString()+"\n");			}//while
 			print.write(into.toString());
 			print.close();
 		} catch (Exception e) {
@@ -445,19 +444,26 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(String json_file) {
-		//		if(ifJson(json_file))
-		//			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
-		//		Gson gson = new Gson();		
-		//		try 
-		//		{
-		//			FileReader reader = new FileReader(json_file);
-		//			Graph_Para param = gson.fromJson(reader,Graph_Para.class);
-		//			System.out.println(param);
-		//			drawFunctions(param.getWidth(), param.getHeight(), param.getRx(), param.getRy(), param.getResolution());
-		//		}//try
-		//		catch (FileNotFoundException e) {
-		//			e.printStackTrace();
-		//		}//catch
+				if(ifJson(json_file))
+					throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
+				Gson gson = new Gson();
+				try 
+				{
+					FileReader reader = new FileReader(json_file);
+					JsonObject param = gson.fromJson(reader,JsonObject.class); 
+					int width=Integer.valueOf(String.valueOf(param.get("Width")));
+					int height=Integer.valueOf(String.valueOf(param.get("Height")));
+					int resolution=Integer.valueOf(String.valueOf(param.get("Resolution")));
+					Range rx=new Range();
+					Range ry=new Range();
+					rx.setValues(String.valueOf(param.get("Range_X")));
+					ry.setValues(String.valueOf(param.get("Range_Y")));
+					drawFunctions(width, height, rx, ry, resolution);
+					
+				}//try
+				catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}//catch
 
 	}//drawFunctions
 	/**

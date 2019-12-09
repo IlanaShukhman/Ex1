@@ -10,6 +10,10 @@ public class Range {
 		set_min(min);
 		set_max(max);
 	}
+	public Range() {
+		set_min(0);
+		set_max(0);
+	}
 	public boolean isIn(double d) {
 		boolean inSide = false;
 		if(d>=this.get_min() && d<=this.get_max()) {inSide=true;}
@@ -35,4 +39,32 @@ public class Range {
 	private void set_min(double _min) {
 		this._min = _min;
 	}
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o instanceof Range)
+		{
+			if(((Range) o).get_max()==this._max && ((Range) o).get_min()==this._min)
+				return true;
+			return false;
+		}//if
+	    return false;
+	}//equals
+	/**
+	 * Parser From Jsom to this object
+	 */
+	public void setValues(String json)
+	{
+		json=json.replaceAll("\\[","");
+		json=json.replaceAll("\\]","");
+		System.out.println(json);
+		int index=json.indexOf(',');
+		String max=json.substring(index+1);
+		String min=json.substring(0,index);
+		double Min=Double.valueOf(min);
+		double Max=Double.valueOf(max);
+		set_max(Max);
+		set_min(Min);
+		
+	}//setValues
 }

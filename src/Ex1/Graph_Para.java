@@ -57,6 +57,18 @@ public class Graph_Para {
 		return "Graph_Para [width=" + width + ", height=" + height + ", rx=" + rx + ", ry=" + ry + ", resolution="
 				+ resolution + "]";
 	}
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o instanceof Graph_Para)
+		{
+			if(((Graph_Para) o).getHeight()==this.height && ((Graph_Para) o).getWidth()==this.width && ((Graph_Para) o).getRx()==this.rx && ((Graph_Para) o).getRy()==this.ry && ((Graph_Para) o).getResolution()==this.resolution)
+					return true;
+			else 
+				return false;
+		}//if
+		return false;
+	}//equals
 	
 	
 }
