@@ -110,11 +110,11 @@ class ComplexFunctionTest {
 		right=new ComplexFunction("max(mul(x^2,x),plus(x+2,2))");
 		ACTUAL=new ComplexFunction(op.Times,left,right);
 		EXPECTED=new ComplexFunction(ACTUAL.toString());
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 
 		ACTUAL=new ComplexFunction(op.None,new Polynom("x^2"),null);
 		EXPECTED=new Polynom("x^2");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 
 	}
 
@@ -124,7 +124,7 @@ class ComplexFunctionTest {
 		op=Operation.Plus;		
 		EXPECTED=new ComplexFunction(op,left,right);
 		ACTUAL=EXPECTED.copy();
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to copy. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to copy. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
@@ -132,7 +132,7 @@ class ComplexFunctionTest {
 		op=Operation.Plus;
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("plus(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to do Plus operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Plus operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
@@ -148,7 +148,7 @@ class ComplexFunctionTest {
 		op=Operation.Divid;
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("div(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to do Divide operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Divide operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
@@ -156,7 +156,7 @@ class ComplexFunctionTest {
 		op=Operation.Max;
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("max(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to do Max operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Max operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
@@ -164,7 +164,7 @@ class ComplexFunctionTest {
 		op=Operation.Min;
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("min(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to do Min operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Min operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
@@ -172,21 +172,21 @@ class ComplexFunctionTest {
 		op=Operation.Comp;
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("comp(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
-		assertEquals(EXPECTED.toString(), ACTUAL.toString(), "ERR: failing to do Comp operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Comp operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
 	}
 
 	@Test
 	final void testLeft() {
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		function l=actual.left();
-		assertEquals(left.toString(), l.toString(),"ERR: failing to get left function. "+"We expected to get: "+left.toString()+" But we got: "+actual.left().toString());
+		assertEquals(left, l,"ERR: failing to get left function. "+"We expected to get: "+left.toString()+" But we got: "+actual.left().toString());
 	}
 
 	@Test
 	final void testRight() {
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		function r=actual.right();
-		assertEquals(right.toString(), r.toString(),"ERR: failing to get right function. "+"We expected to get: "+right.toString()+" But we got: "+actual.right().toString());
+		assertEquals(right, r,"ERR: failing to get right function. "+"We expected to get: "+right.toString()+" But we got: "+actual.right().toString());
 	}
 
 	@Test
@@ -194,7 +194,7 @@ class ComplexFunctionTest {
 		op=op.None;
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		Operation o=actual.getOp();
-		assertEquals(o.toString(), op.toString(),"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
+		assertEquals(o, op,"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
 
 	}
 

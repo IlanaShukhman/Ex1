@@ -371,8 +371,8 @@ public class ComplexFunction implements complex_function {
 		{
 				if((obj instanceof Polynom || obj instanceof Monom))
 				{
-					if(!isEmpty() && checkByInterval((function) obj))
-						return true;
+					if(!isEmpty() && !checkByInterval((function) obj))
+						return false;
 					if(Right==null)
 					{
 						if(Left instanceof Polynom || Left instanceof Monom)
@@ -390,6 +390,7 @@ public class ComplexFunction implements complex_function {
 							return true;
 							System.out.println("ERR: can't compare between complex function to Polynoms or Monoms");
 					}//else
+						return true;
 				}//if
 				else if(obj instanceof ComplexFunction)
 				{
@@ -433,7 +434,7 @@ public class ComplexFunction implements complex_function {
 
 public boolean ComotativeCase(ComplexFunction r)
 {
-	if(getOp()==r.getOp())
+	if(getOp()==r.getOp() && (r.getOp()==Operation.Plus || r.getOp()==Operation.Max || r.getOp()==Operation.Min || r.getOp()==Operation.None))
 	{
 		if((left().equals(r.Left) && right().equals(r.Right)) || (left().equals(r.Right) && left().equals(r.Right)))
 			return true;

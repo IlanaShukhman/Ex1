@@ -16,8 +16,10 @@ import com.google.gson.Gson;
 public class main {
 
 	public static void main(String[] args) throws IOException {
-		function f=new ComplexFunction();
-		System.out.println(f==null);
+		function f=new Polynom("3x^2+4");
+		ComplexFunction g=new ComplexFunction(Operation.Comp,f,null);
+		System.out.println(g.f(4));
+		
 	}
 
 }
