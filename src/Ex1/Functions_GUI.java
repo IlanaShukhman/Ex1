@@ -32,12 +32,10 @@ public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
 
 	public Functions_GUI() {
-		super();
 		this.func_collection = new ArrayList<function>();
 	}//Functions_GUI
 
 	public Functions_GUI(ArrayList<function> func_collection) {
-		super();
 		this.func_collection =new ArrayList<>(func_collection);
 	}//Functions_GUI
 
@@ -185,7 +183,7 @@ public class Functions_GUI implements functions {
 			{
 				del.add(f);
 			}//if
-			
+
 		}//while
 		removeAll(del);
 		return true;
@@ -381,7 +379,7 @@ public class Functions_GUI implements functions {
 	 * @param stepH how much pixels is y=1
 	 */
 
-	public void drawLines(Range Width, Range Height, double stepW, double stepH) {
+	private void drawLines(Range Width, Range Height, double stepW, double stepH) {
 
 		/////// vertical lines
 		for (double i = 0; i <= Width.get_max(); i=i+stepW){
@@ -413,7 +411,7 @@ public class Functions_GUI implements functions {
 	 * @param stepH how much pixels is y=1
 	 */
 
-	public void addNumbers(Range Width, Range Height, double stepW, double stepH) {
+	private void addNumbers(Range Width, Range Height, double stepW, double stepH) {
 
 		int j=0;
 		for (double i = 0; i <= Width.get_max(); i=i+stepW){
@@ -444,26 +442,26 @@ public class Functions_GUI implements functions {
 
 	@Override
 	public void drawFunctions(String json_file) {
-				if(ifJson(json_file))
-					throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
-				Gson gson = new Gson();
-				try 
-				{
-					FileReader reader = new FileReader(json_file);
-					JsonObject param = gson.fromJson(reader,JsonObject.class); 
-					int width=Integer.valueOf(String.valueOf(param.get("Width")));
-					int height=Integer.valueOf(String.valueOf(param.get("Height")));
-					int resolution=Integer.valueOf(String.valueOf(param.get("Resolution")));
-					Range rx=new Range();
-					Range ry=new Range();
-					rx.setValues(String.valueOf(param.get("Range_X")));
-					ry.setValues(String.valueOf(param.get("Range_Y")));
-					drawFunctions(width, height, rx, ry, resolution);
-					
-				}//try
-				catch (FileNotFoundException e) {
-					e.printStackTrace();
-				}//catch
+		if(ifJson(json_file))
+			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");
+		Gson gson = new Gson();
+		try 
+		{
+			FileReader reader = new FileReader(json_file);
+			JsonObject param = gson.fromJson(reader,JsonObject.class); 
+			int width=Integer.valueOf(String.valueOf(param.get("Width")));
+			int height=Integer.valueOf(String.valueOf(param.get("Height")));
+			int resolution=Integer.valueOf(String.valueOf(param.get("Resolution")));
+			Range rx=new Range();
+			Range ry=new Range();
+			rx.setValues(String.valueOf(param.get("Range_X")));
+			ry.setValues(String.valueOf(param.get("Range_Y")));
+			drawFunctions(width, height, rx, ry, resolution);
+
+		}//try
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}//catch
 
 	}//drawFunctions
 	/**
@@ -471,7 +469,7 @@ public class Functions_GUI implements functions {
 	 * @param name - path file
 	 * @return - if the path file have .json in the suffix.
 	 */
-	public boolean ifJson(String name)
+	private boolean ifJson(String name)
 	{
 		int index=name.indexOf('.');
 		String type=name.substring(index);

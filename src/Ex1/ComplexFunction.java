@@ -21,9 +21,22 @@ public class ComplexFunction implements complex_function {
 
 	public ComplexFunction(Operation op,function l,function r)
 	{
-		this.Left=l;
-		this.Right=r;
-		this.Root=op;
+		//if we got op(f,null), and op isn't none, it is not a legal input.
+		if(r==null && l!=null & !op.equals(op.None))
+			throw new RuntimeException("ERR: the operation was not none when right was null");
+
+		//      if op is none, and we have plus(f,null) and f is a complexFunction:
+		//      if l is polynom, it is fine.
+		//		else if(r==null && op.equals(op.None) && l instanceof ComplexFunction) {
+		//			initFromString(l.toString());
+		//		}
+		else if(op==null || op.equals(op.Error))
+			throw new RuntimeException("ERR: Got error as an operation, not a legal input. ");
+		else {
+			this.Left=l;
+			this.Right=r;
+			this.Root=op;
+		}
 	}//ComplexFunction
 
 	public ComplexFunction(ComplexFunction cf) {
@@ -47,13 +60,13 @@ public class ComplexFunction implements complex_function {
 			left=new Polynom(s);
 			right=null;	
 		}
-		
+
 		else if(simpleCF(s)){
 			op=whichOP(s.substring(0,s.indexOf('(')));
 			left = new Polynom(s.substring(s.indexOf('(')+1,s.indexOf(',')));
 			right =new Polynom(s.substring(s.indexOf(',')+1,s.indexOf(')')));
 		}
-		
+
 		else {
 			int index=s.indexOf("(");
 			String oper=s.substring(0,index);
@@ -99,7 +112,7 @@ public class ComplexFunction implements complex_function {
 	 * @param s string in the form of op(f(x),g(x))
 	 * @return f(x)
 	 */
-	public ComplexFunction findLeftFunction(String s) {
+	private ComplexFunction findLeftFunction(String s) {
 		ComplexFunction Left=new ComplexFunction();
 
 		int index=s.indexOf('(');
@@ -125,7 +138,7 @@ public class ComplexFunction implements complex_function {
 	 * @param s string in the form of op(f(x),g(x))
 	 * @return g(x)
 	 */
-	public ComplexFunction findRightFunction(String s) {
+	private ComplexFunction findRightFunction(String s) {
 		ComplexFunction Right=new ComplexFunction();
 
 		int index=s.indexOf('(');
@@ -369,47 +382,48 @@ public class ComplexFunction implements complex_function {
 	public boolean equals(Object obj) {
 		if(obj instanceof function)
 		{
-				if((obj instanceof Polynom || obj instanceof Monom))
+			if((obj instanceof Polynom || obj instanceof Monom))
+			{
+				if(!isEmpty() && !checkByInterval((function) obj))
+					return false;
+				if(Right==null)
 				{
-					if(!isEmpty() && !checkByInterval((function) obj))
-						return false;
-					if(Right==null)
+					if(Left instanceof Polynom || Left instanceof Monom)
 					{
-						if(Left instanceof Polynom || Left instanceof Monom)
-						{
-							return Left.equals(obj);
-						}//if
-						else if(Left instanceof ComplexFunction)//Left is ComplexFunction and Obj is Polynom or Monom
-						{
-							if(((ComplexFunction) Left).getOp()==Operation.None)
-								return Left.equals(obj);	
-						}//else
+						return Left.equals(obj);
 					}//if
-					else {
-						if(!isEmpty() && checkByInterval((function) obj))
-							return true;
-							System.out.println("ERR: can't compare between complex function to Polynoms or Monoms");
+					else if(Left instanceof ComplexFunction)//Left is ComplexFunction and Obj is Polynom or Monom
+					{
+						if(((ComplexFunction) Left).getOp()==Operation.None)
+							return Left.equals(obj);	
 					}//else
-						return true;
 				}//if
-				else if(obj instanceof ComplexFunction)
-				{
-					
-					if(((ComplexFunction) obj).isEmpty() && isEmpty())
+				else {
+					if(!isEmpty() && checkByInterval((function) obj))
 						return true;
-					if(obj.toString().equals(toString()))
-						return true;
-					if(ComotativeCase((ComplexFunction) obj))
-						return true;
-					if(!isEmpty() && !((ComplexFunction) obj).isEmpty())
-						return checkByInterval((function) obj);
-				}//else if
-				else
-					throw new RuntimeException("ERR: trying to mix meat and milk those objects are different");
+					System.out.println("ERR: can't compare between complex function to Polynoms or Monoms");
+				}//else
+				return true;
+			}//if
+			else if(obj instanceof ComplexFunction)
+			{
+
+				if(((ComplexFunction) obj).isEmpty() && isEmpty())
+					return true;
+				if(obj.toString().equals(toString()))
+					return true;
+				if(ComotativeCase((ComplexFunction) obj))
+					return true;
+				if(!isEmpty() && !((ComplexFunction) obj).isEmpty())
+					return checkByInterval((function) obj);
+			}//else if
+			else
+				throw new RuntimeException("ERR: trying to mix meat and milk those objects are different");
 			return false;
 		}//if
 		return false;
 	}//equals
+	
 	private boolean checkByInterval(function obj)
 	{
 		Integer min=80;
@@ -432,27 +446,27 @@ public class ComplexFunction implements complex_function {
 		return str;
 	}
 
-public boolean ComotativeCase(ComplexFunction r)
-{
-	if(getOp()==r.getOp() && (r.getOp()==Operation.Plus || r.getOp()==Operation.Max || r.getOp()==Operation.Min || r.getOp()==Operation.None))
+	private boolean ComotativeCase(ComplexFunction r)
 	{
-		if((left().equals(r.Left) && right().equals(r.Right)) || (left().equals(r.Right) && left().equals(r.Right)))
-			return true;
-		return false;
-	}//if
-	else
-		return false;
-}//ComotativeCase
+		if(getOp()==r.getOp() && (r.getOp()==Operation.Plus || r.getOp()==Operation.Max || r.getOp()==Operation.Min || r.getOp()==Operation.None))
+		{
+			if((left().equals(r.Left) && right().equals(r.Right)) || (left().equals(r.Right) && left().equals(r.Right)))
+				return true;
+			return false;
+		}//if
+		else
+			return false;
+	}//ComotativeCase
 
-public boolean isEmpty()
-{
-	if(getOp()==Operation.None)
+	private boolean isEmpty()
 	{
-		if(this.Left==null && this.Right==null)
-			return true;
+		if(getOp()==Operation.None)
+		{
+			if(this.Left==null && this.Right==null)
+				return true;
+			return false;
+		}//if
 		return false;
-	}//if
-	return false;
-}//idEmpty
+	}//idEmpty
 
 }
