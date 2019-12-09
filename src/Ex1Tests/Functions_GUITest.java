@@ -21,7 +21,6 @@ import com.google.gson.JsonParser;
 
 import Ex1.ComplexFunction;
 import Ex1.Functions_GUI;
-import Ex1.Graph_Para;
 import Ex1.Monom;
 import Ex1.Operation;
 import Ex1.Polynom;

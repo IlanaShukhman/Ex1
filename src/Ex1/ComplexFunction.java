@@ -369,34 +369,45 @@ public class ComplexFunction implements complex_function {
 	public boolean equals(Object obj) {
 		if(obj instanceof function)
 		{
-			boolean first=checkByInterval((function) obj);
-			if(first=true)
-			{
 				if((obj instanceof Polynom || obj instanceof Monom))
 				{
+					if(!isEmpty() && checkByInterval((function) obj))
+						return true;
 					if(Right==null)
 					{
 						if(Left instanceof Polynom || Left instanceof Monom)
 						{
 							return Left.equals(obj);
 						}//if
-						System.out.println("ERR: can't compare between complex functions");	
-					}//else if
-					System.out.println("ERR: can't compare between complex functions");	
+						else if(Left instanceof ComplexFunction)//Left is ComplexFunction and Obj is Polynom or Monom
+						{
+							if(((ComplexFunction) Left).getOp()==Operation.None)
+								return Left.equals(obj);	
+						}//else
+					}//if
+					else {
+						if(!isEmpty() && checkByInterval((function) obj))
+							return true;
+							System.out.println("ERR: can't compare between complex function to Polynoms or Monoms");
+					}//else
 				}//if
 				else if(obj instanceof ComplexFunction)
 				{
+					
+					if(((ComplexFunction) obj).isEmpty() && isEmpty())
+						return true;
 					if(obj.toString().equals(toString()))
 						return true;
+					if(ComotativeCase((ComplexFunction) obj))
+						return true;
+					if(!isEmpty() && !((ComplexFunction) obj).isEmpty())
+						return checkByInterval((function) obj);
 				}//else if
 				else
 					throw new RuntimeException("ERR: trying to mix meat and milk those objects are different");
-			}//if
 			return false;
 		}//if
 		return false;
-
-
 	}//equals
 	private boolean checkByInterval(function obj)
 	{
@@ -420,6 +431,27 @@ public class ComplexFunction implements complex_function {
 		return str;
 	}
 
+public boolean ComotativeCase(ComplexFunction r)
+{
+	if(getOp()==r.getOp())
+	{
+		if((left().equals(r.Left) && right().equals(r.Right)) || (left().equals(r.Right) && left().equals(r.Right)))
+			return true;
+		return false;
+	}//if
+	else
+		return false;
+}//ComotativeCase
 
+public boolean isEmpty()
+{
+	if(getOp()==Operation.None)
+	{
+		if(this.Left==null && this.Right==null)
+			return true;
+		return false;
+	}//if
+	return false;
+}//idEmpty
 
 }

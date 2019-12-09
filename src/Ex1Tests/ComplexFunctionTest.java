@@ -217,23 +217,22 @@ class ComplexFunctionTest {
 		EXPECTED=new ComplexFunction(op,f,g);
 		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 
-		//		EXPECTED=new ComplexFunction(op,g,f);
-		//		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+				EXPECTED=new ComplexFunction(op,g,f);
+				assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 
 		//Should we do that if f and g are differant but the checkByInterval returns true, we then we return true?
 		//Like in this example, we can make it true:
-		//EXPECTED=new ComplexFunction("min(3x^2,plus(x^5+3x^3,2x-8))");
-		//assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+		EXPECTED=new ComplexFunction("min(3x^2,plus(x^5+3x^3,2x-8))");
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 		//Tell me which, so I can write it down in issue.
 
 		EXPECTED=new ComplexFunction("min(x^2+2x^2,x^5+3x^3+2x-8)");
 		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 		
 //Should we solve it? (Null pointer Exception). Or try and catch?		
-//		ACTUAL=new ComplexFunction(op.None,null,null);
-//		EXPECTED=new ComplexFunction();
-//		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
-		
+		ACTUAL=new ComplexFunction(op.None,null,null);
+		EXPECTED=new ComplexFunction();
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare empty complexFunction to another ComplexFunction");		
 		Polynom a=new Polynom("x^5+3x^3+2x-8");
 		Polynom b=new Polynom("3x^2");
 		a.add(b);

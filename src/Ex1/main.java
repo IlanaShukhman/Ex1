@@ -16,7 +16,8 @@ import com.google.gson.Gson;
 public class main {
 
 	public static void main(String[] args) throws IOException {
-			
+		function f=new ComplexFunction();
+		System.out.println(f==null);
 	}
 
 }
