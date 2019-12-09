@@ -177,6 +177,7 @@ class ComplexFunctionTest {
 
 	@Test
 	final void testLeft() {
+		op=op.Plus;
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		function l=actual.left();
 		assertEquals(left, l,"ERR: failing to get left function. "+"We expected to get: "+left.toString()+" But we got: "+actual.left().toString());
@@ -184,6 +185,7 @@ class ComplexFunctionTest {
 
 	@Test
 	final void testRight() {
+		op=op.Plus;
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		function r=actual.right();
 		assertEquals(right, r,"ERR: failing to get right function. "+"We expected to get: "+right.toString()+" But we got: "+actual.right().toString());
