@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import Ex1.ComplexFunction;
+import Ex1.Functions_GUI;
 import Ex1.Monom;
 import Ex1.Operation;
 import Ex1.Polynom;
@@ -102,14 +103,6 @@ class ComplexFunctionTest {
 		}//for
 	}//testF()
 
-	@Test
-	final void testSimpleCF() {
-		String s1="max(x^2,x)";
-		boolean e=ComplexFunction.simpleCF(s1);
-		assertTrue(e);
-		String s2="mul(4,plus(x,6))";
-		assertFalse(ComplexFunction.simpleCF(s2));
-	}
 
 	@Test
 	final void testInitFromString() {
@@ -121,7 +114,7 @@ class ComplexFunctionTest {
 
 	}
 
-	//@Test
+	@Test
 
 	final void testCopy() {
 		op=Operation.Plus;		
@@ -200,7 +193,7 @@ class ComplexFunctionTest {
 		assertEquals(o.toString(), op.toString(),"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
 
 	}
-	
+
 	@Test
 	final void testEquals()
 	{
@@ -211,9 +204,54 @@ class ComplexFunctionTest {
 		assertEquals(g, ACTUAL,"ERR: failing to compare ComplexFunction to Polynom");
 		ACTUAL=new ComplexFunction(f.toString());
 		assertEquals(f, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
+
 		ACTUAL=new ComplexFunction(right);
 		assertEquals(right, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
+
+		ACTUAL=new ComplexFunction("div(x^2,x)");
+		EXPECTED=new ComplexFunction("div(x^2,x)");
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+
+
+		ACTUAL=new ComplexFunction("min(3x^2,x^5+3x^3+2x-8)");
+		EXPECTED=new ComplexFunction(op,f,g);
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+
+		//		EXPECTED=new ComplexFunction(op,g,f);
+		//		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+
+		//Should we do that if f and g are differant but the checkByInterval returns true, we then we return true?
+		//Like in this example, we can make it true:
+		//EXPECTED=new ComplexFunction("min(3x^2,plus(x^5+3x^3,2x-8))");
+		//assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+		//Tell me which, so I can write it down in issue.
+
+		EXPECTED=new ComplexFunction("min(x^2+2x^2,x^5+3x^3+2x-8)");
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 		
+//Should we solve it? (Null pointer Exception). Or try and catch?		
+//		ACTUAL=new ComplexFunction(op.None,null,null);
+//		EXPECTED=new ComplexFunction();
+//		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+		
+		Polynom a=new Polynom("x^5+3x^3+2x-8");
+		Polynom b=new Polynom("3x^2");
+		a.add(b);
+		function h=a;
+		ACTUAL=new ComplexFunction(h);
+		EXPECTED=new ComplexFunction("3x^2+x^5+3x^3+2x-8");
+		
+
+
+		ACTUAL=new ComplexFunction("min(3x^2,x^5+3x^3+2x-8)");
+		EXPECTED=new ComplexFunction("max(3x^2,x^5+3x^3+2x-8)");
+		assertNotEquals(EXPECTED,ACTUAL,"ERR: failing to return false when ComplexFunctions are not the same");
+		ACTUAL=new ComplexFunction("3x^2");
+		assertEquals(ACTUAL,f,"ERR: failing to return true when monom and complexFunction are the same");
+
+
+
+
 	}//testEquals
 
 }

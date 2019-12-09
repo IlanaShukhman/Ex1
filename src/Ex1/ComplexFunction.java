@@ -34,8 +34,7 @@ public class ComplexFunction implements complex_function {
 
 	public ComplexFunction(function f) {
 		initFromString(f.toString());
-	}
-
+	}//ComplexFunction
 
 	public ComplexFunction(String s) {
 		s=s.replace(" ", "");
@@ -48,15 +47,20 @@ public class ComplexFunction implements complex_function {
 			left=new Polynom(s);
 			right=null;	
 		}
+		
 		else if(simpleCF(s)){
 			op=whichOP(s.substring(0,s.indexOf('(')));
 			left = new Polynom(s.substring(s.indexOf('(')+1,s.indexOf(',')));
 			right =new Polynom(s.substring(s.indexOf(',')+1,s.indexOf(')')));
 		}
+		
 		else {
 			int index=s.indexOf("(");
 			String oper=s.substring(0,index);
 			op=whichOP(oper);
+			if(op==op.Error) {
+				throw new RuntimeException("ERR: The operation was not legal");
+			}
 			left=findLeftFunction(s);
 			right=findRightFunction(s);
 		}
@@ -64,7 +68,7 @@ public class ComplexFunction implements complex_function {
 		set_OP(op);
 		set_left(left);
 		set_right(right);
-	}
+	}//ComplexFunction
 
 	/**
 	 * This method returns true is a given string is in the form of op(f(x),g(x)),
@@ -72,7 +76,7 @@ public class ComplexFunction implements complex_function {
 	 * @param str a given string in the form op(f(x),g(x))
 	 * @return true if f and g are polynoms.
 	 */
-	public static boolean simpleCF(String str) {
+	private boolean simpleCF(String str) {
 		int count1=0;
 		int count2=0;
 		int count3=0;
@@ -156,7 +160,7 @@ public class ComplexFunction implements complex_function {
 	 * @param oper = a string in the form of one of the operators.
 	 * @return the appropriate operator.
 	 */
-	public Operation whichOP(String oper) {
+	private Operation whichOP(String oper) {
 		oper=oper.toLowerCase();
 		if(oper.equals("plus"))
 			return Root.Plus;
@@ -179,13 +183,13 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * Setters.
 	 */
-	public void set_OP(Operation op) {
+	private void set_OP(Operation op) {
 		this.Root=op;
 	}
-	public void set_right(function right) {
+	private void set_right(function right) {
 		this.Right=right;
 	}
-	public void set_left(function left) {
+	private void set_left(function left) {
 		this.Left=left;
 	}
 
@@ -382,7 +386,7 @@ public class ComplexFunction implements complex_function {
 				}//if
 				else if(obj instanceof ComplexFunction)
 				{
-					if(obj.toString().equals(toString())==true)
+					if(obj.toString().equals(toString()))
 						return true;
 				}//else if
 				else
@@ -394,7 +398,7 @@ public class ComplexFunction implements complex_function {
 
 
 	}//equals
-	public boolean checkByInterval(function obj)
+	private boolean checkByInterval(function obj)
 	{
 		Integer min=80;
 		Integer max=100;
