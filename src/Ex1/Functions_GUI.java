@@ -235,7 +235,7 @@ public class Functions_GUI implements functions {
 			System.out.println(i+") "+   this.func_collection.get(i));
 		}
 	}
-	//Deserialization
+
 	@Override
 	public void initFromFile(String file) throws IOException {
 		String split = ",";
