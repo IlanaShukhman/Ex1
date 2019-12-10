@@ -67,31 +67,10 @@ public class ComplexFunction implements complex_function {
 		}//else
 
 	}//ComplexFunction
+	
 	public ComplexFunction(ComplexFunction cf) {
 		this(cf.Root,cf.Left,cf.Right);
-
-
-		//		
-		//		if(cf.getOp()!=Operation.None)
-		//		{
-		//			if(cf.getOp()==Operation.Error)
-		//				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
-		//			else {
-		//				this.Left=cf.left();
-		//				this.Right=cf.right();
-		//				this.Root=cf.getOp();
-		//			}//else
-		//		}//if
-		//		else if(Right!=null)
-		//			throw new RuntimeException("ERR: Got none as an operation, if the right function isn't null we cant do anything with it");
-		//		else
-		//		{
-		//			this.Left=cf.left();
-		//			this.Right=cf.right();
-		//			this.Root=cf.getOp();
-	}//else
-
-	//	}//ComplexFunction
+	}//ComplexFunction
 
 	public ComplexFunction(function f) {
 		initFromString(f.toString());
