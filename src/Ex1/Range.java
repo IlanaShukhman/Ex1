@@ -50,6 +50,7 @@ public class Range {
 		}//if
 	    return false;
 	}//equals
+	
 	/**
 	 * Parser From Jsom to this object
 	 */

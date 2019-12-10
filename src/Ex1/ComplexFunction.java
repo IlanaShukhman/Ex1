@@ -27,27 +27,21 @@ public class ComplexFunction implements complex_function {
 			if(op==Operation.Error)
 				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
 			else {
-			this.Left=l;
-			this.Right=r;
-			this.Root=op;
+				this.Left=l;
+				this.Right=r;
+				this.Root=op;
 			}//else
 		}//if
-		else if(Right!=null)
+		else if(r!=null)
 			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
-		else
+		else//if this operation is none and right is null
 		{
 			this.Left=l;
 			this.Right=r;
 			this.Root=op;
 		}//else
-			
 
-		//      if op is none, and we have plus(f,null) and f is a complexFunction:
-		//      if l is polynom, it is fine.
-		//		else if(r==null && op.equals(op.None) && l instanceof ComplexFunction) {
-		//			initFromString(l.toString());
-		//		}
-		 
+
 	}//ComplexFunction
 
 	public ComplexFunction(String o,function l,function r)
@@ -58,12 +52,12 @@ public class ComplexFunction implements complex_function {
 			if(op==Operation.Error)
 				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
 			else {
-			this.Left=l;
-			this.Right=r;
-			this.Root=op;
+				this.Left=l;
+				this.Right=r;
+				this.Root=op;
 			}//else
 		}//if
-		else if(Right!=null)
+		else if(r!=null)
 			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
 		else
 		{
@@ -71,29 +65,33 @@ public class ComplexFunction implements complex_function {
 			this.Right=r;
 			this.Root=op;
 		}//else
-		
+
 	}//ComplexFunction
 	public ComplexFunction(ComplexFunction cf) {
-		if(cf.getOp()!=Operation.None)
-		{
-			if(cf.getOp()==Operation.Error)
-				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
-			else {
-				this.Left=cf.left();
-				this.Right=cf.right();
-				this.Root=cf.getOp();
-			}//else
-		}//if
-		else if(Right!=null)
-			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
-		else
-		{
-			this.Left=cf.left();
-			this.Right=cf.right();
-			this.Root=cf.getOp();
-		}//else
-		
-	}//ComplexFunction
+		this(cf.Root,cf.Left,cf.Right);
+
+
+		//		
+		//		if(cf.getOp()!=Operation.None)
+		//		{
+		//			if(cf.getOp()==Operation.Error)
+		//				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
+		//			else {
+		//				this.Left=cf.left();
+		//				this.Right=cf.right();
+		//				this.Root=cf.getOp();
+		//			}//else
+		//		}//if
+		//		else if(Right!=null)
+		//			throw new RuntimeException("ERR: Got none as an operation, if the right function isn't null we cant do anything with it");
+		//		else
+		//		{
+		//			this.Left=cf.left();
+		//			this.Right=cf.right();
+		//			this.Root=cf.getOp();
+	}//else
+
+	//	}//ComplexFunction
 
 	public ComplexFunction(function f) {
 		initFromString(f.toString());
@@ -105,18 +103,17 @@ public class ComplexFunction implements complex_function {
 		Operation op=Root.None;
 		function left=new Polynom(),right=new Polynom();
 
-		if(Polynom.isPolynom(s)) {
+		if(s.equals("null")) {
+			set_OP(Operation.None);
+			set_left(null);
+			set_right(null);
+		}
+
+		else if(Polynom.isPolynom(s)) {
 			op=Root.None;
 			left=new Polynom(s);
 			right=null;	
-		}
-
-		else if(simpleCF(s)){
-			op=whichOP(s.substring(0,s.indexOf('(')));
-			left = new Polynom(s.substring(s.indexOf('(')+1,s.indexOf(',')));
-			right =new Polynom(s.substring(s.indexOf(',')+1,s.indexOf(')')));
-		}
-
+		}//if
 		else {
 			int index=s.indexOf("(");
 			String oper=s.substring(0,index);
@@ -126,38 +123,16 @@ public class ComplexFunction implements complex_function {
 			}
 			left=findLeftFunction(s);
 			right=findRightFunction(s);
-		}
+		}//else
+
 		//if we got op(f,null), and op isn't none, it is not a legal input.
-				if(right==null && !op.equals(op.None))
-					throw new RuntimeException("ERR: The operation was not none when right was null");
-		
+		if(right==null && !op.equals(op.None))
+			throw new RuntimeException("ERR: The operation was not none when right was null");
+
 		set_OP(op);
 		set_left(left);
 		set_right(right);
 	}//ComplexFunction
-
-	/**
-	 * This method returns true is a given string is in the form of op(f(x),g(x)),
-	 * and f and g are polynoms.
-	 * @param str a given string in the form op(f(x),g(x))
-	 * @return true if f and g are polynoms.
-	 */
-	private boolean simpleCF(String str) {
-		int count1=0;
-		int count2=0;
-		int count3=0;
-		for(int i=0;i<str.length();i++) {
-			if(str.charAt(i)=='(')
-				count1++;
-			else if(str.charAt(i)==')')
-				count2++;
-			else if(str.charAt(i)==',')
-				count3++;
-		}
-		if(count1!=1 || count2!=1 || count3!=1 )
-			return false;
-		return true;
-	}
 
 	/**
 	 * This method gets a string s in the form of: op(f(x),g(x)), where f and g are complexFunction,
@@ -221,6 +196,7 @@ public class ComplexFunction implements complex_function {
 		function f=new ComplexFunction(s);
 		return f;
 	}//initFromString
+
 	/**
 	 * This method receives a string oper, and returns the operator the string is equals to.
 	 * @param oper = a string in the form of one of the operators.
@@ -321,6 +297,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator plus, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void plus(function f1) {
 		function f=new ComplexFunction(f1.toString());
@@ -329,9 +306,9 @@ public class ComplexFunction implements complex_function {
 		this.Root=op;
 		this.Left=left;
 		if(this==f1)
-			{
-				this.Right=f;
-			}//if
+		{
+			this.Right=f;
+		}//if
 		else
 		{
 			this.Right=f1;
@@ -344,6 +321,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator times, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void mul(function f1) {
 		function f=new ComplexFunction(f1.toString());
@@ -355,10 +333,10 @@ public class ComplexFunction implements complex_function {
 		{
 			this.Right=f;
 		}//if
-	else
-	{
-		this.Right=f1;
-	}//else
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//mul
 
 
@@ -367,6 +345,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator divid, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void div(function f1) {
 		function f=new ComplexFunction(f1.toString());
@@ -378,10 +357,10 @@ public class ComplexFunction implements complex_function {
 		{
 			this.Right=f;
 		}//if
-	else
-	{
-		this.Right=f1;
-	}//else
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//div
 
 
@@ -389,6 +368,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator max, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void max(function f1) {
 		function f=new ComplexFunction(f1.copy());
@@ -400,10 +380,10 @@ public class ComplexFunction implements complex_function {
 		{
 			this.Right=f;
 		}//if
-	else
-	{
-		this.Right=f1;
-	}//else
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//max
 
 
@@ -411,6 +391,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator min, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void min(function f1) {
 		function f=new ComplexFunction(f1.toString());
@@ -422,10 +403,10 @@ public class ComplexFunction implements complex_function {
 		{
 			this.Right=f;
 		}//if
-	else
-	{
-		this.Right=f1;
-	}//else
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//min
 
 
@@ -433,6 +414,7 @@ public class ComplexFunction implements complex_function {
 	/**
 	 * This method sets the root of this function as the operator comp, this function becomes 
 	 * the left function and a given function becomes the right function. 
+	 * @param f1 is the given function, to become the right function of this.
 	 */
 	public void comp(function f1) {
 		function f=new ComplexFunction(f1.toString());
@@ -444,22 +426,22 @@ public class ComplexFunction implements complex_function {
 		{
 			this.Right=f;
 		}//if
-	else
-	{
-		this.Right=f1;
-	}//else
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//comp
 
 
 	/**
-	 * Returns the right function of this ComplexFunction
+	 * @return the right function of this ComplexFunction
 	 */
 	public function left() {
 		return this.Left;
 	}//Left
 
 	/**
-	 * Returns the right function of this ComplexFunction
+	 * @return the right function of this ComplexFunction
 	 */
 	public function right() {
 		return this.Right;
@@ -467,16 +449,16 @@ public class ComplexFunction implements complex_function {
 
 
 	/**
-	 * Return the operator of this complexFunction
+	 * @return the operator of this complexFunction
 	 */
 	public Operation getOp() {
 		return Root;
 	}//getOP
 
 	/**
-	 * Returns true if a given function is equal to this ComplexFunction.
-	 * Equals: f1 and f2 will be called equals if for every x, f1(x)=f2(x).
-	 * Returns false otherwise.
+	 * f1 and f2 will be called equals if for every x, f1(x)=f2(x).
+	 * @param obj is a given object. 
+	 * @return true if obj is a ComplexFunction and equals to this. Return false otherwise.
 	 */
 	public boolean equals(Object obj) {
 		if(obj instanceof function)
@@ -522,7 +504,13 @@ public class ComplexFunction implements complex_function {
 		}//if
 		return false;
 	}//equals
-	
+
+
+	/**
+	 * This method helps to decide if two complexFunctions are equals or not.
+	 * @param obj is a given function.
+	 * @return true if for every x checked, this.f(x) equals obj.f(x).
+	 */
 	private boolean checkByInterval(function obj)
 	{
 		Integer min=80;
@@ -544,10 +532,14 @@ public class ComplexFunction implements complex_function {
 		str=str.replace(", null )", "");
 		return str;
 	}
-
+	/**
+	 * This method helps to decide if two complexFunctions are equals or not.
+	 * @param r is a given ComplexFunction in the form of op(f,g).
+	 * @return true if this is op(g,f), and op is either plus, max, min, mul or none.
+	 */
 	private boolean ComotativeCase(ComplexFunction r)
 	{
-		if(getOp()==r.getOp() && (r.getOp()==Operation.Plus || r.getOp()==Operation.Max || r.getOp()==Operation.Min || r.getOp()==Operation.None))
+		if(getOp()==r.getOp() && (r.getOp()==Operation.Plus || r.getOp()==Operation.Times || r.getOp()==Operation.Max || r.getOp()==Operation.Min || r.getOp()==Operation.None))
 		{
 			if((left().equals(r.Left) && right().equals(r.Right)) || (left().equals(r.Right) && left().equals(r.Right)))
 				return true;
@@ -557,14 +549,13 @@ public class ComplexFunction implements complex_function {
 			return false;
 	}//ComotativeCase
 
+	/**
+	 * @return true if this is an empty ComplexFunction
+	 */
 	private boolean isEmpty()
 	{
-		if(getOp()==Operation.None)
-		{
-			if(this.Left==null && this.Right==null)
-				return true;
-			return false;
-		}//if
+		if(getOp()==Operation.None && this.Left==null && this.Right==null)
+			return true;
 		return false;
 	}//idEmpty
 

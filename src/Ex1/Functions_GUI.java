@@ -30,6 +30,10 @@ import com.google.gson.reflect.TypeToken;
 
 public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
+	
+	/**
+	 * Constructors:
+	 */
 
 	public Functions_GUI() {
 		this.func_collection = new ArrayList<function>();
@@ -41,7 +45,6 @@ public class Functions_GUI implements functions {
 
 	/**
 	 * Getters.
-	 * @return func_collenction
 	 */
 	public ArrayList<function> get_func_collection(){
 		return this.func_collection;
@@ -50,15 +53,16 @@ public class Functions_GUI implements functions {
 	public function get(int index) {
 		return func_collection.get(index);
 	}
+	
 	/**
-	 * Returns the number of elements in this collection.
+	 * @return the number of elements in this collection.
 	 */
 	public int size() {
 		return this.func_collection.size();
 	}
 
 	/**
-	 * Returns true if this collection contains no elements.
+	 * @return true if this collection contains no elements.
 	 */
 	public boolean isEmpty() {
 		if(this.func_collection.isEmpty()) {
@@ -68,10 +72,9 @@ public class Functions_GUI implements functions {
 	}
 
 	/**
-	 * Returns true if this collection contains the specified element.
-	 * More formally,
 	 * returns true if and only if this collection contains at least one element e such that:
 	 * (o==null ? e==null : o.equals(e)).
+	 * @return true if this collection contains the specified element.
 	 */
 	public boolean contains(Object o) {
 		if(o instanceof function) {
@@ -87,7 +90,7 @@ public class Functions_GUI implements functions {
 		return false;
 	}
 	/**
-	 * Returns an iterator over the elements in this collection.
+	 * @return an iterator over the elements in this collection.
 	 */
 	public Iterator<function> iterator() {
 		Iterator<function> itr=func_collection.iterator();
@@ -95,7 +98,7 @@ public class Functions_GUI implements functions {
 	}
 
 	/**
-	 * Returns an array containing all of the elements in this collection.
+	 * @return an array containing all of the elements in this collection.
 	 */
 	public Object[] toArray() {
 		Object[] obj = new function[this.func_collection.size()];
@@ -106,7 +109,7 @@ public class Functions_GUI implements functions {
 	}
 
 	/**
-	 * Returns an array containing all of the elements in this collection;
+	 * @return an array containing all of the elements in this collection;
 	 * the runtime type of the returned array is that of the specified array.
 	 */
 	public <T> T[] toArray(T[] a) {
@@ -116,6 +119,11 @@ public class Functions_GUI implements functions {
 		}
 		return t;
 	}
+	
+	/**
+	 * Adds a function e to this Functions_GUI
+	 * @return true if the method succeeded
+	 */
 
 	public boolean add(function e) {
 		this.func_collection.add(e);
@@ -123,6 +131,10 @@ public class Functions_GUI implements functions {
 	}//add
 
 
+	/**
+	 * Removes a function e to this Functions_GUI
+	 * @return true if the method succeeded, false if the function doesn't exist
+	 */
 	public boolean remove(Object o) {
 		if(!this.contains(o))
 			return false;
@@ -131,7 +143,7 @@ public class Functions_GUI implements functions {
 	}//remove
 
 	/**
-	 * Returns true if this collection contains all of the elements in the specified collection.
+	 * @return true if this collection contains all of the elements in the specified collection.
 	 */
 	public boolean containsAll(Collection<?> c) {
 		if(c.size()>size())
@@ -153,6 +165,7 @@ public class Functions_GUI implements functions {
 	}//containsAll
 	/**
 	 * Adds all of the elements in the specified collection to this collection (optional operation).
+	 * @return true if the method succeeded.
 	 */
 	@Override
 	public boolean addAll(Collection<? extends function> c) {
@@ -160,6 +173,7 @@ public class Functions_GUI implements functions {
 	}
 	/**
 	 * Removes all of this collection's elements that are also contained in the specified collection (optional operation).
+	 * @return true if the method succeeded, false if c isn't contained if this Functions_GUI
 	 */
 	@Override
 	public boolean removeAll(Collection<?> c) {
@@ -170,6 +184,7 @@ public class Functions_GUI implements functions {
 	}
 	/**
 	 * Retains only the elements in this collection that are contained in the specified collection (optional operation).
+	 * @return true if the method succeeded
 	 */
 	@Override
 	public boolean retainAll(Collection<?> c) {
@@ -195,7 +210,8 @@ public class Functions_GUI implements functions {
 		this.func_collection.clear();
 	}
 	/**
-	 * We can't yet compare two ComplexFunctions.
+	 * @return true if a given object is a Functions_GUI, is the same size as this Functions_GUI, 
+	 * and this contains all the functions in the given Functions_GUI.
 	 */
 	public boolean equals(Object f) {
 		if(f instanceof Functions_GUI)//If they are the same object
@@ -218,6 +234,10 @@ public class Functions_GUI implements functions {
 		return false;
 	}//equals
 
+	
+	/**
+	 * @return this Functions_GUI as a string
+	 */
 	public String toString() {
 		String str="";
 		for (int i = 0; i < this.func_collection.size(); i++) {
@@ -228,13 +248,12 @@ public class Functions_GUI implements functions {
 		return str;
 	}
 
-	public void print() {
-		for (int i = 0; i < this.size(); i++) {
-			System.out.println(i+") "+   this.func_collection.get(i));
-		}
-	}
 
-	@Override
+	/**
+	 * Init a new collection of functions from a file
+	 * @param file - the file name
+	 * @throws IOException if the file does not exists of unreadable (wrong format)
+	 */
 	public void initFromFile(String file) throws IOException {
 		String split = ",";
 		String line="";
@@ -257,7 +276,11 @@ public class Functions_GUI implements functions {
 
 	}//initFromFile
 
-	@Override
+	/**
+	 * Save a collection of function to a file.
+	 * @param file - the file name
+	 * @throws IOException if the file is not writable
+	 */
 	public void saveToFile(String file) throws IOException {
 		try {
 			File f=new File(file);
@@ -277,8 +300,21 @@ public class Functions_GUI implements functions {
 	}//SaveToFile
 
 
+	/**
+	 * Draws all the functions in the collection in a GUI window using the
+	 * given parameters for the GUI windo and the range & resolution
+	 * @param width - the width of the window - in pixels
+	 * @param height - the height of the window - in pixels
+	 * @param rx - the range of the horizontal axis
+	 * @param ry - the range of the vertical axis
+	 * @param resolution - the number of samples with in rx: the X_step = rx/resulution
+	 */
 
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
+		//check that all the parameters are legal:
+		if(width<=0 || height<=0 || rx.get_min()>=rx.get_max() || ry.get_min()>=ry.get_max() || resolution<=0)
+			throw new RuntimeException("The input was not legal");
+		
 		Color[] color= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange
 				,Color.pink};
 
@@ -368,6 +404,7 @@ public class Functions_GUI implements functions {
 			colorNum++;
 			if(colorNum==8)
 				colorNum=0;
+			System.out.println(f);
 
 		}
 	}//drawFunction
@@ -415,12 +452,12 @@ public class Functions_GUI implements functions {
 
 		int j=0;
 		for (double i = 0; i <= Width.get_max(); i=i+stepW){
-			StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+			StdDraw.text(i-1, -1, Integer.toString(j));
 			j++;
 		}
 		j=0;
 		for (double i = 0; i >= Width.get_min(); i=i-stepW){			
-			StdDraw.text(i-0.07, -0.07, Integer.toString(j));
+			StdDraw.text(i-1, -1, Integer.toString(j));
 			j--;
 		}
 		j=0;
@@ -440,7 +477,11 @@ public class Functions_GUI implements functions {
 
 
 
-	@Override
+	/**
+	 * Draws all the functions in the collection in a GUI window using the given JSON file
+	 * @param json_file - the file with all the parameters for the GUI window. 
+	 * Note: is the file id not readable or in wrong format should use default values. 
+	 */
 	public void drawFunctions(String json_file) {
 		if(ifJson(json_file))
 			throw new RuntimeException("ERR: trying to parsing json file but the given file isnt json");

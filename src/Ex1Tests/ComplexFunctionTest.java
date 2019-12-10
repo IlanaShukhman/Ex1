@@ -70,11 +70,13 @@ class ComplexFunctionTest {
 			}//Min
 			case None:
 			{
-				ACTUAL=new ComplexFunction(o,left,right);
+				ACTUAL=new ComplexFunction(o,left,null);
 				double x=4;
 				double actual=ACTUAL.f(x);
 				double expected=left.f(x);
 				assertEquals(actual,expected,EPS, "ERR: testF failing to calculate "+o.name()+" operation. We expected to get: "+EXPECTED.toString()+"="+expected+" But we get: "+ACTUAL.toString()+"="+actual);
+				ACTUAL=new ComplexFunction("none(none(none(x,null),null),null)");
+				assertEquals(ACTUAL.f(x),4);
 				break;
 			}//None
 			case Plus:
@@ -115,15 +117,8 @@ class ComplexFunctionTest {
 		ACTUAL=new ComplexFunction(op.None,new Polynom("x^2"),null);
 		EXPECTED=new Polynom("x^2");
 		assertEquals(EXPECTED, ACTUAL, "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+			
 		
-		boolean flage=true;
-		try {
-			function f=new Polynom("3x^4+3");
-			ACTUAL=new ComplexFunction(Operation.Comp,f,null);
-		} catch (Exception e) {
-			flage=false;
-		}//catch
-		assertEquals(false, flage,"ERR: you can only oprate none with null!!");
 	}//testInitFromString
 
 	@Test
@@ -210,7 +205,7 @@ class ComplexFunctionTest {
 	@Test
 	final void testGetOp() {
 		op=op.None;
-		ComplexFunction actual=new ComplexFunction(op,left,right);
+		ComplexFunction actual=new ComplexFunction(op,left,null);
 		Operation o=actual.getOp();
 		assertEquals(o, op,"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
 		
