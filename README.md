@@ -2,7 +2,7 @@
 
 The main purpose of this project is to make complicated functions. There are classes, interfaces and Enums.
 
-Intefaces: 
+## Intefaces: 
 
 1) complex_function. This interface represents a complex function of type y=g(f1(x), f2(x)), where both f1, f2 are functions (or complex functions), 
    y and x are real numbers and g is an operation: plus, mul, div, max, min, comp (f1(f2(x))).   
@@ -14,13 +14,13 @@ Intefaces:
    where: a_1, a_2 ... a_n are real numbers and b_1<b_2..<b_n are none negative integers (naturals).
    For formal definitions see: https://en.wikipedia.org/wiki/Polynomial
 
-Enum:
+## Enum:
 1) Operation: This enum presents the set of operations applicable on function to compose a complex function from two functions.
    E.g.,   Plus: plus(f1(x), f2(x)),  Times: mul(f1(x), f2(x)), Divid: div(f1(x), f2(x)), Max: max(f1(x), f2(x)), Min: min(f1(x), f2(x)),
    Comp: comp(f1(x), f2(x)) == f1(f2(x))
    None representing no Operation and Error representing an unknown (aka unsupported) Operation.
 
-Classes:
+## Classes:
 1) ComplexFunction: implements the interface complex_function. The class variables are function left and function right, and an Operation op.
 It supports the following methods:
 
@@ -79,8 +79,12 @@ It supports the following methods:
    The class support simple operations as: construction, value at x, derivative, add and multiply. 
 
 4) Polynom: implements Polynom_able. This class represents a Polynom with add, multiply functionality, it also should support the following:
+
    4.1) Riemann's Integral: https://en.wikipedia.org/wiki/Riemann_integral
+   
    4.2) Finding a numerical value between two values (currently support root only f(x)=0).
+   
    4.3) Derivative
 
+In this project, we also have Ex1Test, which contains the tests we did for these four classes.
   
