@@ -115,13 +115,22 @@ class ComplexFunctionTest {
 		ACTUAL=new ComplexFunction(op.None,new Polynom("x^2"),null);
 		EXPECTED=new Polynom("x^2");
 		assertEquals(EXPECTED, ACTUAL, "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
-
-	}
+		
+		boolean flage=true;
+		try {
+			function f=new Polynom("3x^4+3");
+			ACTUAL=new ComplexFunction(Operation.Comp,f,null);
+		} catch (Exception e) {
+			flage=false;
+		}//catch
+		assertEquals(false, flage,"ERR: you can only oprate none with null!!");
+	}//testInitFromString
 
 	@Test
 
 	final void testCopy() {
-		op=Operation.Plus;		
+		op=Operation.Plus;	
+		ACTUAL=new ComplexFunction();
 		EXPECTED=new ComplexFunction(op,left,right);
 		ACTUAL=EXPECTED.copy();
 		assertEquals(EXPECTED, ACTUAL, "ERR: failing to copy. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
@@ -133,6 +142,13 @@ class ComplexFunctionTest {
 		ACTUAL=new ComplexFunction(op,left,right);
 		EXPECTED=new ComplexFunction("plus(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
 		assertEquals(EXPECTED, ACTUAL, "ERR: failing to do Plus operation. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
+		
+		ACTUAL=new ComplexFunction("max(mul(x^2,x),plus(x+2,2))");
+		((ComplexFunction) ACTUAL).plus(ACTUAL);
+		EXPECTED=new ComplexFunction("plus(max(mul(x^2,x),plus(x+2,2)),max(mul(x^2,x),plus(x+2,2)))");
+		System.out.println(EXPECTED.toString());
+		System.out.println(ACTUAL.toString());
+		assertEquals(EXPECTED, ACTUAL);
 	}
 
 	@Test
@@ -197,7 +213,7 @@ class ComplexFunctionTest {
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		Operation o=actual.getOp();
 		assertEquals(o, op,"ERR: failing to get operation function. We expected to get: "+op.toString()+" But we got: "+o.toString());
-
+		
 	}
 
 	@Test

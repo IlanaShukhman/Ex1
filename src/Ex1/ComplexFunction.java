@@ -22,16 +22,16 @@ public class ComplexFunction implements complex_function {
 	public ComplexFunction(Operation op,function l,function r)
 	{
 		//if we got op(f,null), and op isn't none, it is not a legal input.
-		if(r==null && l!=null & !op.equals(op.None))
-			throw new RuntimeException("ERR: the operation was not none when right was null");
+		if(r==null && !op.equals(op.None))
+			throw new RuntimeException("ERR: The operation was not none when right was null");
 
 		//      if op is none, and we have plus(f,null) and f is a complexFunction:
 		//      if l is polynom, it is fine.
 		//		else if(r==null && op.equals(op.None) && l instanceof ComplexFunction) {
 		//			initFromString(l.toString());
 		//		}
-		else if(op==null || op.equals(op.Error))
-			throw new RuntimeException("ERR: Got error as an operation, not a legal input. ");
+		else if(op.equals(Operation.Error))
+			throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
 		else {
 			this.Left=l;
 			this.Right=r;
@@ -39,7 +39,20 @@ public class ComplexFunction implements complex_function {
 		}
 	}//ComplexFunction
 
+	public ComplexFunction(String o,function l,function r)
+	{
+		Operation p=whichOP(o);
+		if(r==null && !o.equals(Operation.None))
+			throw new RuntimeException("ERR: The operation was not none when right was null");
+		this.Left=l;
+		this.Right=r;
+		this.Root=p;
+		
+	}//ComplexFunction
 	public ComplexFunction(ComplexFunction cf) {
+		if(cf.right()==null && !cf.getOp().equals(Operation.None))
+			throw new RuntimeException("ERR: The operation was not none when right was null");
+		
 		this.Left=cf.left();
 		this.Right=cf.right();
 		this.Root=cf.getOp();
@@ -77,7 +90,10 @@ public class ComplexFunction implements complex_function {
 			left=findLeftFunction(s);
 			right=findRightFunction(s);
 		}
-
+		//if we got op(f,null), and op isn't none, it is not a legal input.
+				if(right==null && !op.equals(op.None))
+					throw new RuntimeException("ERR: The operation was not none when right was null");
+		
 		set_OP(op);
 		set_left(left);
 		set_right(right);
@@ -270,11 +286,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void plus(function f1) {
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Plus;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
-		this.Right=f1;
+		if(this==f1)
+			{
+				this.Right=f;
+			}//if
+		else
+		{
+			this.Right=f1;
+		}//else
 	}//plus
 
 
@@ -285,11 +309,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void mul(function f1) {
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Times;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
+		if(this==f1)
+		{
+			this.Right=f;
+		}//if
+	else
+	{
 		this.Right=f1;
+	}//else
 	}//mul
 
 
@@ -300,11 +332,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void div(function f1) {
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Divid;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
+		if(this==f1)
+		{
+			this.Right=f;
+		}//if
+	else
+	{
 		this.Right=f1;
+	}//else
 	}//div
 
 
@@ -314,11 +354,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void max(function f1) {
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Max;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
+		if(this==f1)
+		{
+			this.Right=f;
+		}//if
+	else
+	{
 		this.Right=f1;
+	}//else
 	}//max
 
 
@@ -328,12 +376,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void min(function f1) {
-
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Min;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
+		if(this==f1)
+		{
+			this.Right=f;
+		}//if
+	else
+	{
 		this.Right=f1;
+	}//else
 	}//min
 
 
@@ -343,12 +398,19 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void comp(function f1) {
-
+		function f=new ComplexFunction(f1.toString());
 		Operation op=Operation.Comp;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;
 		this.Left=left;
+		if(this==f1)
+		{
+			this.Right=f;
+		}//if
+	else
+	{
 		this.Right=f1;
+	}//else
 	}//comp
 
 

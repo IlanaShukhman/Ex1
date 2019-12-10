@@ -95,8 +95,11 @@ class Functions_GUITest {
 		assertTrue(e);
 	}
 //I don't know understand how to use T[]
-//	@Test
+	@Test
 	void testToArrayTArray() {
+		Functions_GUI f=new Functions_GUI();
+		f.add(f1);
+		f.add(f2);
 		
 	}
 
