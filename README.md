@@ -21,7 +21,9 @@ The main purpose of this project is to make complicated functions. There are cla
    None representing no Operation and Error representing an unknown (aka unsupported) Operation.
 
 ## Classes:
-1) ComplexFunction: implements the interface complex_function. The class variables are function left and function right, and an Operation op.
+
+### 1) ComplexFunction:
+Implements the interface complex_function. The class variables are function left and function right, and an Operation op.
 It supports the following methods:
 
   1.1) Constructors. Can receive : nothing, which returns a ComplexFunction that left and right are null and op is none; 
@@ -50,7 +52,8 @@ It supports the following methods:
        
   1.10) String toString.
   
-2) Functions_GUI: implements functions. The class variable is ArrayList<function> func_collection. It supports the following methods:
+### 2) Functions_GUI: 
+Implements functions. The class variable is ArrayList<function> func_collection. It supports the following methods:
  
   2.1) Constructors. Can receive: nothing, which returns an empty ArrayList.
                                   ArrayList<function> func_collection.
@@ -73,12 +76,14 @@ It supports the following methods:
        
   2.9) drawFunction(String json file): Draws all the functions in the collection in a GUI window using the given JSON file.
 
-3) Monom: implements function. This class represents a simple "Monom" of shape ax^b, where a is a real number and b is an integer 
+### 3) Monom: 
+Implements function. This class represents a simple "Monom" of shape ax^b, where a is a real number and b is an integer 
    (summed a none negative), 
    see: https://en.wikipedia.org/wiki/Monomial 
    The class support simple operations as: construction, value at x, derivative, add and multiply. 
 
-4) Polynom: implements Polynom_able. This class represents a Polynom with add, multiply functionality, it also should support the following:
+### 4) Polynom: 
+Implements Polynom_able. This class represents a Polynom with add, multiply functionality, it also should support the following:
 
    4.1) Riemann's Integral: https://en.wikipedia.org/wiki/Riemann_integral
    
