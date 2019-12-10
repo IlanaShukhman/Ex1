@@ -22,40 +22,77 @@ public class ComplexFunction implements complex_function {
 	public ComplexFunction(Operation op,function l,function r)
 	{
 		//if we got op(f,null), and op isn't none, it is not a legal input.
-		if(r==null && !op.equals(op.None))
-			throw new RuntimeException("ERR: The operation was not none when right was null");
+		if(op!=Operation.None)
+		{
+			if(op==Operation.Error)
+				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
+			else {
+			this.Left=l;
+			this.Right=r;
+			this.Root=op;
+			}//else
+		}//if
+		else if(Right!=null)
+			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
+		else
+		{
+			this.Left=l;
+			this.Right=r;
+			this.Root=op;
+		}//else
+			
 
 		//      if op is none, and we have plus(f,null) and f is a complexFunction:
 		//      if l is polynom, it is fine.
 		//		else if(r==null && op.equals(op.None) && l instanceof ComplexFunction) {
 		//			initFromString(l.toString());
 		//		}
-		else if(op.equals(Operation.Error))
-			throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
-		else {
-			this.Left=l;
-			this.Right=r;
-			this.Root=op;
-		}
+		 
 	}//ComplexFunction
 
 	public ComplexFunction(String o,function l,function r)
 	{
-		Operation p=whichOP(o);
-		if(r==null && !o.equals(Operation.None))
-			throw new RuntimeException("ERR: The operation was not none when right was null");
-		this.Left=l;
-		this.Right=r;
-		this.Root=p;
+		Operation op=whichOP(o);
+		if(op!=Operation.None)
+		{
+			if(op==Operation.Error)
+				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
+			else {
+			this.Left=l;
+			this.Right=r;
+			this.Root=op;
+			}//else
+		}//if
+		else if(Right!=null)
+			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
+		else
+		{
+			this.Left=l;
+			this.Right=r;
+			this.Root=op;
+		}//else
 		
 	}//ComplexFunction
 	public ComplexFunction(ComplexFunction cf) {
-		if(cf.right()==null && !cf.getOp().equals(Operation.None))
-			throw new RuntimeException("ERR: The operation was not none when right was null");
+		if(cf.getOp()!=Operation.None)
+		{
+			if(cf.getOp()==Operation.Error)
+				throw new RuntimeException("ERR: Got error as an operation, not a legal Operation. ");
+			else {
+				this.Left=cf.left();
+				this.Right=cf.right();
+				this.Root=cf.getOp();
+			}//else
+		}//if
+		else if(Right!=null)
+			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
+		else
+		{
+			this.Left=cf.left();
+			this.Right=cf.right();
+			this.Root=cf.getOp();
+		}//else
 		
-		this.Left=cf.left();
-		this.Right=cf.right();
-		this.Root=cf.getOp();
 	}//ComplexFunction
 
 	public ComplexFunction(function f) {
@@ -354,7 +391,7 @@ public class ComplexFunction implements complex_function {
 	 * the left function and a given function becomes the right function. 
 	 */
 	public void max(function f1) {
-		function f=new ComplexFunction(f1.toString());
+		function f=new ComplexFunction(f1.copy());
 		Operation op=Operation.Max;
 		function left=new ComplexFunction(this.Root, this.Left, this.Right);
 		this.Root=op;

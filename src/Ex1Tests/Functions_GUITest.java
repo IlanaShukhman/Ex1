@@ -221,7 +221,7 @@ class Functions_GUITest {
 		
 	}
 
-	//@Test
+	@Test
 	void testDrawFunctionsIntIntRangeRangeInt() {
 		Functions_GUI data = FunctionsFactory();
 		int w=1000, h=600, res=200;
@@ -230,7 +230,7 @@ class Functions_GUITest {
 		data.drawFunctions(w,h,rx,ry,res);
 	}
 
-	@Test
+	//@Test
 	void testDrawFunctionsString() {
 		String file="GUI_params.json";
 		Functions_GUI g = new Functions_GUI(arr);
