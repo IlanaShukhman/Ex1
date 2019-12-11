@@ -33,7 +33,7 @@ public class ComplexFunction implements complex_function {
 			}//else
 		}//if
 		else if(r!=null)
-			throw new RuntimeException("ERR: Got error as an operation, if the right function isn't null we cant do nothing eith none ");
+			throw new RuntimeException("ERR: We cant handle with none as operation and two Not null functions. We try to input: OP: "+op.name()+" Left: "+l+" Right: "+r);
 		else//if this operation is none and right is null
 		{
 			this.Left=l;
@@ -241,7 +241,7 @@ public class ComplexFunction implements complex_function {
 	 * This method returns a deep copy of this function
 	 */
 	public function copy() {
-		function f= new ComplexFunction();
+		function f= new ComplexFunction(toString());
 		return f;
 	}//copy
 
