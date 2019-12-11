@@ -208,6 +208,7 @@ class Functions_GUITest {
 		f.saveToFile(file);
 		g.initFromFile(file);
 		assertEquals(f, g, "ERR: trying to saveToFile. We expected to: "+f.toString()+" but we got: "+g.toString());
+		g.initFromFile("wrongformat.txt");
 	}
 
 	@Test

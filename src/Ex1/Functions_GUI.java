@@ -269,7 +269,7 @@ public class Functions_GUI implements functions {
 
 		}//try
 		catch (IOException e) 
-		{
+		{	
 			e.printStackTrace();
 			System.out.println("could not read file");
 		}//catch
@@ -501,7 +501,7 @@ public class Functions_GUI implements functions {
 
 		}//try
 		catch (FileNotFoundException e) {
-			e.printStackTrace();
+			drawFunctions(600, 400, new Range(-10, 10), new Range(-10, 10), 200);
 		}//catch
 
 	}//drawFunctions
