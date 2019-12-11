@@ -94,6 +94,8 @@ public class ComplexFunction implements complex_function {
 			right=null;	
 		}//if
 		else {
+			if(!checkLegalInput(s))
+				throw new RuntimeException("The input we got is not a legal input!");
 			int index=s.indexOf("(");
 			String oper=s.substring(0,index);
 			op=whichOP(oper);
@@ -113,6 +115,26 @@ public class ComplexFunction implements complex_function {
 		set_right(right);
 	}//ComplexFunction
 
+	public boolean checkLegalInput(String str) {
+		int count1=0;
+		int count2=0;
+		int count3=0;
+		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i)=='(')
+				count1++;
+			else if(str.charAt(i)==')')
+				count2++;
+			else if(str.charAt(i)==',')
+				count3++;
+		}
+		if(count1!=count2 || count2!=count3 || count3!=count1 )
+			return false;
+		if(str.contains("(,") || str.contains(",)"))
+			return false;
+		
+		
+		return true;
+	}
 	/**
 	 * This method gets a string s in the form of: op(f(x),g(x)), where f and g are complexFunction,
 	 * returns f(x)
