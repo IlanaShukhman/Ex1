@@ -242,7 +242,6 @@ public class ComplexFunction implements complex_function {
 	 */
 	public function copy() {
 		function f= new ComplexFunction();
-		f=f.initFromString(toString());
 		return f;
 	}//copy
 
