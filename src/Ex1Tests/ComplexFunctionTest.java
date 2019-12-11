@@ -46,7 +46,7 @@ class ComplexFunctionTest {
 			}//Divide
 			case Error:
 			{
-				boolean flage=true;
+				boolean flag=true;
 				try {
 					ACTUAL=new ComplexFunction(o,left,right);
 					double x=4;
@@ -57,9 +57,9 @@ class ComplexFunctionTest {
 					} 
 					catch (Exception e)
 					{
-						flage=false;
+						flag=false;
 					}
-				assertEquals(false, flage,"ERR: Operation is Eror and you trying to calculate something.");
+				assertEquals(false, flag,"ERR: Operation is Eror and you trying to calculate something.");
 				break;
 			}//Error
 			case Max:
@@ -131,8 +131,32 @@ class ComplexFunctionTest {
 		ACTUAL=new ComplexFunction(op.None,new Polynom("x^2"),null);
 		EXPECTED=new Polynom("x^2");
 		assertEquals(EXPECTED, ACTUAL, "ERR: failing to initFromString. We expected to get: "+EXPECTED.toString()+" But we got: "+ACTUAL.toString());
-			
+		boolean flag=true;
+		String ans="Please throw error";
+		try {
+			ACTUAL=new ComplexFunction(ans);
+		} catch (Exception e) {
+			flag=false;
+		}
+		assertFalse(flag,"ERR:ComplexFunctiokn wrong format. Trying to construct: "+ans);
 		
+		flag=true;
+		ans="+(x^3,2x)";
+		try {
+			ACTUAL=new ComplexFunction(ans);
+		} catch (Exception e) {
+			flag=false;
+		}
+		assertFalse(flag,"ERR:ComplexFunctiokn wrong format. Trying to construct: "+ans);
+		
+		flag=true;
+		ans="plus(mulx,x),x)";
+		try {
+			ACTUAL=new ComplexFunction(ans);
+		} catch (Exception e) {
+			flag=false;
+		}
+		assertFalse(flag,"ERR:ComplexFunctiokn wrong format. Trying to construct: "+ans);
 	}//testInitFromString
 
 	@Test
@@ -155,8 +179,8 @@ class ComplexFunctionTest {
 		ACTUAL=new ComplexFunction("max(mul(x^2,x),plus(x+2,2))");
 		((ComplexFunction) ACTUAL).plus(ACTUAL);
 		EXPECTED=new ComplexFunction("plus(max(mul(x^2,x),plus(x+2,2)),max(mul(x^2,x),plus(x+2,2)))");
-		System.out.println(EXPECTED.toString());
-		System.out.println(ACTUAL.toString());
+		//System.out.println(EXPECTED.toString());
+		//System.out.println(ACTUAL.toString());
 		assertEquals(EXPECTED, ACTUAL);
 	}
 
@@ -206,6 +230,8 @@ class ComplexFunctionTest {
 		ComplexFunction actual=new ComplexFunction(op,left,right);
 		function l=actual.left();
 		assertEquals(left, l,"ERR: failing to get left function. "+"We expected to get: "+left.toString()+" But we got: "+actual.left().toString());
+		actual=new ComplexFunction();
+		assertEquals(null, actual.left(),"ERR: failed  to return null");
 	}
 
 	@Test
@@ -238,9 +264,9 @@ class ComplexFunctionTest {
 
 		ACTUAL=new ComplexFunction(right);
 		assertEquals(right, ACTUAL,"ERR: failing to compare ComplexFunction to Monom");
-
-		ACTUAL=new ComplexFunction("div(x^2,x)");
-		EXPECTED=new ComplexFunction("div(x^2,x)");
+		
+		ACTUAL=new ComplexFunction("div(x^2,x-90)");
+		EXPECTED=new ComplexFunction("div(x^2,x-90)");
 		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 
 
@@ -249,11 +275,11 @@ class ComplexFunctionTest {
 		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
 
 		EXPECTED=new ComplexFunction(op,g,f);
-		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to check commutative case in ComplexFunction equals");
 
 
 		EXPECTED=new ComplexFunction("min(3x^2,plus(x^5+3x^3,2x-8))");
-		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare complexFunction to another ComplexFunction");
+		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare between two complexFunctions that are the same but written differently");
 
 
 		EXPECTED=new ComplexFunction("min(x^2+2x^2,x^5+3x^3+2x-8)");
@@ -264,24 +290,12 @@ class ComplexFunctionTest {
 		EXPECTED=new ComplexFunction();
 		assertEquals(EXPECTED,ACTUAL,"ERR: failing to compare empty complexFunction to another ComplexFunction");		
 
-		Polynom a=new Polynom("x^5+3x^3+2x-8");
-		Polynom b=new Polynom("3x^2");
-		a.add(b);
-		function h=a;
-		ACTUAL=new ComplexFunction(h);
-		EXPECTED=new ComplexFunction("3x^2+x^5+3x^3+2x-8");
-
-
-
+		
 		ACTUAL=new ComplexFunction("min(3x^2,x^5+3x^3+2x-8)");
 		EXPECTED=new ComplexFunction("max(3x^2,x^5+3x^3+2x-8)");
 		assertNotEquals(EXPECTED,ACTUAL,"ERR: failing to return false when ComplexFunctions are not the same");
 		ACTUAL=new ComplexFunction("3x^2");
 		assertEquals(ACTUAL,f,"ERR: failing to return true when monom and complexFunction are the same");
-
-
-
-
 	}//testEquals
 
 }

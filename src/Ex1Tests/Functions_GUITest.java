@@ -94,12 +94,9 @@ class Functions_GUITest {
 		e=Arrays.equals(Actual, Expected);
 		assertTrue(e);
 	}
-//I don't know understand how to use T[]
-	@Test
+
+	//@Test
 	void testToArrayTArray() {
-		Functions_GUI f=new Functions_GUI();
-		f.add(f1);
-		f.add(f2);
 		
 	}
 
@@ -127,8 +124,7 @@ class Functions_GUITest {
 		assertFalse(e, "ERR: testRemove didn't return false when tried to remove an object that doesn't exist in it");
 		e=f.remove(f2);
 		e=g.remove(f2);
-		e=f.equals(g);
-		assertTrue(e);
+		assertTrue(f.equals(g));
 		//assertEquals(f, g, "ERR: testRemove failed to return true when f and g are the same. Got: "+f +" , "+g);
 	}
 
@@ -152,8 +148,7 @@ class Functions_GUITest {
 		Functions_GUI g=new Functions_GUI(arr);
 		e=g.add(f3);
 		e=g.add(f4);
-		e=f.containsAll(g);
-		assertTrue(e);
+		assertTrue(f.equals(g));
 		
 	}
 
@@ -168,8 +163,7 @@ class Functions_GUITest {
 		e=f.add(f4);
 		e=f.removeAll(c);
 		Functions_GUI g=new Functions_GUI(arr2);
-		e=f.containsAll(g);
-		assertTrue(e);
+		assertTrue(f.equals(g));
 	}
 
 	@Test
@@ -208,7 +202,13 @@ class Functions_GUITest {
 		f.saveToFile(file);
 		g.initFromFile(file);
 		assertEquals(f, g, "ERR: trying to saveToFile. We expected to: "+f.toString()+" but we got: "+g.toString());
-		g.initFromFile("wrongformat.txt");
+		boolean flage=true;
+		try {
+			g.initFromFile("wrongformat.txt");
+		} catch (Exception e) {
+			flage=false;
+		}//catch
+		assertEquals(false, flage,"ERR: Trying to reading from wrong format.");
 	}
 
 	@Test
