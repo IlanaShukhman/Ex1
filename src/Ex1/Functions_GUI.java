@@ -30,7 +30,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class Functions_GUI implements functions {
 	private ArrayList<function> func_collection;
-	
+
 	/**
 	 * Constructors:
 	 */
@@ -53,7 +53,7 @@ public class Functions_GUI implements functions {
 	public function get(int index) {
 		return func_collection.get(index);
 	}
-	
+
 	/**
 	 * @return the number of elements in this collection.
 	 */
@@ -119,7 +119,7 @@ public class Functions_GUI implements functions {
 		}
 		return t;
 	}
-	
+
 	/**
 	 * Adds a function e to this Functions_GUI
 	 * @return true if the method succeeded
@@ -234,7 +234,7 @@ public class Functions_GUI implements functions {
 		return false;
 	}//equals
 
-	
+
 	/**
 	 * @return this Functions_GUI as a string
 	 */
@@ -314,7 +314,7 @@ public class Functions_GUI implements functions {
 		//check that all the parameters are legal:
 		if(width<=0 || height<=0 || rx.get_min()>=rx.get_max() || ry.get_min()>=ry.get_max() || resolution<=0)
 			throw new RuntimeException("The input was not legal");
-		
+
 		Color[] color= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange
 				,Color.pink};
 
@@ -380,7 +380,10 @@ public class Functions_GUI implements functions {
 					y[i] = f.f(x[i]);
 				}
 				catch(Exception e) {
-
+					if(y[i-1]>0)
+						y[i]=Integer.MAX_VALUE;
+					else
+						y[i]=Integer.MIN_VALUE;
 				}
 				//(x,y) place on the screen:
 				x[i] = (x[i]*Width.get_max())/rx.get_max();
