@@ -73,7 +73,7 @@ public class ComplexFunction implements complex_function {
 	}//ComplexFunction
 
 	public ComplexFunction(function f) {
-		initFromString(f.toString());
+		this(f.toString());
 	}//ComplexFunction
 
 	public ComplexFunction(String s) {
