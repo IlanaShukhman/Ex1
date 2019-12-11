@@ -20,7 +20,8 @@ public class main {
 	g.plus(g);
 	System.out.println(g.toString());
 	ComplexFunction f=new ComplexFunction("Plus(Plus ( 3.0x^2+5.0 , 0 ),Plus ( 3.0x^2+5.0 , 0 ))");
-	System.out.println(f.toString());
+	String s="dsds";
+	System.out.println();
 		
 		
 	}

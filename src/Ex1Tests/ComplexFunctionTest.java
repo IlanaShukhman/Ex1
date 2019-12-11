@@ -46,6 +46,20 @@ class ComplexFunctionTest {
 			}//Divide
 			case Error:
 			{
+				boolean flage=true;
+				try {
+					ACTUAL=new ComplexFunction(o,left,right);
+					double x=4;
+					double actual=ACTUAL.f(x);
+					EXPECTED=new ComplexFunction("div(min(div(x^3,x),x),max(mul(x^2,x),plus(x+2,2)))");
+					double expected=EXPECTED.f(x);
+					assertEquals(actual,expected,EPS, "ERR: testF failing to calculate "+o.name()+"  operation. We expected to get: "+EXPECTED.toString()+"="+expected+" But we get: "+ACTUAL.toString()+"="+actual);
+					} 
+					catch (Exception e)
+					{
+						flage=false;
+					}
+				assertEquals(false, flage,"ERR: Operation is Eror and you trying to calculate something.");
 				break;
 			}//Error
 			case Max:
